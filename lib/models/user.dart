@@ -1,7 +1,11 @@
+/// Class yang berisikan informasi pengguna
 class User {
   User({required this.name, required this.image});
 
+  /// Nama pengguna
   String name;
+
+  /// Photo profile pengguna
   String image;
 }
 
