@@ -6,6 +6,7 @@ class Task {
     required this.place,
     required this.startTime,
     required this.endTime,
+    this.isDone = false,
   });
 
   /// Judul dari task
@@ -22,20 +23,6 @@ class Task {
 
   /// Batas waktu task berakhir
   DateTime endTime;
-}
-
-/// Pengatur task
-class TaskManager {
-  TaskManager(this.task, {
-    this.isWaiting = true,
-    this.isDone = false,
-  });
-
-  /// [Task] rincian task
-  Task task;
-
-  /// Informasi apakah task masih belum dikerjakan
-  bool isWaiting;
 
   /// Informasi apakah task sudah dikejakan
   bool isDone;

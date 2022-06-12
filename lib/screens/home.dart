@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:one_task/models/models.dart';
+import 'package:one_task/sample_data.dart';
+import 'package:one_task/screens/screens.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -9,7 +10,20 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  var currentIndex = 1;
+  /// Pengatur tampilan menu utama
+  var currentPage = 1;
+
+  /// Halaman pada tampilan utama
+  final pages = [
+    const Center(
+      child: Text('Schedule'),
+    ),
+    TodayTasksView(
+      tasksManager: userTaskManager,
+    ),
+    const NotesView(),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,7 +35,7 @@ class _HomeState extends State<Home> {
               padding: const EdgeInsets.only(left: 16.0),
               child: CircleAvatar(
                 backgroundColor: Colors.transparent,
-                backgroundImage: AssetImage(agusti.image),
+                backgroundImage: AssetImage(userTaskManager.user.image),
               ),
             ),
             actions: [
@@ -34,16 +48,16 @@ class _HomeState extends State<Home> {
               ),
             ],
           ),
-          const SliverToBoxAdapter(
-            child: TodayTasks(),
+          SliverToBoxAdapter(
+            child: pages[currentPage],
           )
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
-          currentIndex: currentIndex,
+          currentIndex: currentPage,
           onTap: (index) {
             setState(() {
-              currentIndex = index;
+              currentPage = index;
             });
           },
           iconSize: 35,
@@ -64,14 +78,5 @@ class _HomeState extends State<Home> {
             ),
           ]),
     );
-  }
-}
-
-class TodayTasks extends StatelessWidget {
-  const TodayTasks({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return const Center(child: Text('hello'));
   }
 }

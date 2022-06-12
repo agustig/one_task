@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:one_task/theme.dart';
 import 'package:one_task/screens/screens.dart';
 
 void main() {
@@ -12,20 +13,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: '1Task',
-      theme: ThemeData(
-        brightness: Brightness.light,
-        appBarTheme: const AppBarTheme(
-          foregroundColor: Colors.black,
-          backgroundColor: Colors.white,
-        ),
-        floatingActionButtonTheme: const FloatingActionButtonThemeData(
-          foregroundColor: Colors.black,
-          backgroundColor: Colors.white,
-        ),
-        bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-          selectedItemColor: Colors.black,
-        ),
-      ),
+      theme: oneTaskTheme(),
       home: const Home(),
     );
   }
