@@ -74,6 +74,7 @@ class _TodayTasksViewState extends State<TodayTasksView> {
                           Expanded(
                             flex: 16,
                             child: Card(
+                              color: task.background,
                               child: Container(
                                 margin: const EdgeInsets.all(16),
                                 child: Column(

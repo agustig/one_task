@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 /// Class yang berisikan rincian task
 class Task {
   Task({
@@ -7,6 +9,7 @@ class Task {
     required this.startTime,
     required this.endTime,
     this.isDone = false,
+    this.background = Colors.white,
   });
 
   /// Judul dari task
@@ -26,4 +29,7 @@ class Task {
 
   /// Informasi apakah task sudah dikejakan
   bool isDone;
+
+  /// Warna backgroud dari task
+  Color? background;
 }

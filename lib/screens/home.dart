@@ -15,11 +15,11 @@ class _HomeState extends State<Home> {
 
   /// Halaman pada tampilan utama
   final pages = [
-    const Center(
-      child: Text('Schedule'),
+    ScheduleView(
+      tasksManager: userTaskManager(true),
     ),
     TodayTasksView(
-      tasksManager: userTaskManager,
+      tasksManager: userTaskManager(true),
     ),
     const NotesView(),
   ];
@@ -35,7 +35,7 @@ class _HomeState extends State<Home> {
               padding: const EdgeInsets.only(left: 16.0),
               child: CircleAvatar(
                 backgroundColor: Colors.transparent,
-                backgroundImage: AssetImage(userTaskManager.user.image),
+                backgroundImage: AssetImage(userTaskManager().user.image),
               ),
             ),
             actions: [
@@ -66,7 +66,7 @@ class _HomeState extends State<Home> {
           items: const [
             BottomNavigationBarItem(
               icon: Icon(Icons.calendar_month_outlined),
-              label: 'Tasks',
+              label: 'Schedule',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.home_filled),
