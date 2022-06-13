@@ -200,10 +200,10 @@ class _TaskFormState extends State<TaskForm> {
                           isEndTimeValid(_dateTime.startTime, _dateTime.endTime)
                               ? Text(
                                   _dateTime.endTime.format(context),
-                                  style: const TextStyle(color: Colors.red),
                                 )
                               : Text(
                                   _dateTime.endTime.format(context),
+                                  style: const TextStyle(color: Colors.red),
                                 ),
                         ],
                       ),
@@ -293,8 +293,8 @@ class _TaskFormState extends State<TaskForm> {
               child: SizedBox(
                 child: Text(
                   isEndTimeValid(_dateTime.startTime, _dateTime.endTime)
-                      ? 'Peringatan: Waktu berakhir harus lebih besar dari waktu mulai!'
-                      : '',
+                      ? ''
+                      : 'Peringatan: Waktu berakhir harus lebih besar dari waktu mulai!',
                   style: const TextStyle(
                     color: Colors.red,
                     fontSize: 18,
