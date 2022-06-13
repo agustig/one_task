@@ -84,226 +84,229 @@ class _TaskFormState extends State<TaskForm> {
           ),
         ],
       ),
-      body: Container(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          children: [
-            buildTextField(
-              controller: _titleController,
-              label: 'Judul',
-              hint: 'Rapat',
-            ),
-            buildTextField(
-                controller: _detailController,
-                label: 'Detail',
-                hint: 'Rapat dengan client mengenai gol proyek',
-                maxLines: 3),
-            buildTextField(
-              controller: _placeController,
-              label: 'Tempat',
-              hint: 'Cafe ABC',
-            ),
-
-            // Kolom untuk menampilkan tombol pilih tangal,
-            // waktu mulai, dan waktu berakhir pada task
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8),
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          Text(
-                            'Tanggal:',
-                            style: Theme.of(context).textTheme.bodyText1,
-                          ),
-                          const SizedBox(width: 10.0),
-                          Text(
-                            DateFormat.yMMMMEEEEd('id_ID')
-                                .format(_dateTime.date),
-                          ),
-                        ],
-                      ),
-                      TextButton(
-                        onPressed: () async {
-                          final selectedDate = await showDatePicker(
-                            context: context,
-                            initialDate: _dateTime.date,
-                            firstDate: DateTime.now(),
-                            lastDate: DateTime(DateTime.now().year + 1),
-                          );
-
-                          setState(() {
-                            if (selectedDate != null) {
-                              _dateTime.date = selectedDate;
-                            }
-                          });
-                        },
-                        child: Text(
-                          'Pilih tanggal',
-                          style: TextStyle(
-                            color: _currentColor,
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          Text(
-                            'Waktu mulai:',
-                            style: Theme.of(context).textTheme.bodyText1,
-                          ),
-                          const SizedBox(width: 10.0),
-                          Text(
-                            _dateTime.startTime.format(context),
-                          ),
-                        ],
-                      ),
-                      TextButton(
-                        onPressed: () async {
-                          final selectedTime = await showTimePicker(
-                            context: context,
-                            initialTime: _dateTime.startTime,
-                          );
-
-                          setState(() {
-                            if (selectedTime != null) {
-                              _dateTime.startTime = selectedTime;
-                            }
-                          });
-                        },
-                        child: Text(
-                          'Pilih jam',
-                          style: TextStyle(
-                            color: _currentColor,
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          Text(
-                            'Waktu berakhir:',
-                            style: Theme.of(context).textTheme.bodyText1,
-                          ),
-                          const SizedBox(width: 10.0),
-                          isEndTimeValid(_dateTime.startTime, _dateTime.endTime)
-                              ? Text(
-                                  _dateTime.endTime.format(context),
-                                )
-                              : Text(
-                                  _dateTime.endTime.format(context),
-                                  style: const TextStyle(color: Colors.red),
-                                ),
-                        ],
-                      ),
-                      TextButton(
-                        onPressed: () async {
-                          final selectedTime = await showTimePicker(
-                            context: context,
-                            initialTime: _dateTime.endTime,
-                          );
-
-                          setState(() {
-                            if (selectedTime != null) {
-                              _dateTime.endTime = selectedTime;
-                            }
-                          });
-                        },
-                        child: Text(
-                          'Pilih jam',
-                          style: TextStyle(
-                            color: _currentColor,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
+      body: SingleChildScrollView(
+        child: Container(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            children: [
+              buildTextField(
+                controller: _titleController,
+                label: 'Judul',
+                hint: 'Rapat',
               ),
-            ),
+              buildTextField(
+                  controller: _detailController,
+                  label: 'Detail',
+                  hint: 'Rapat dengan client mengenai gol proyek',
+                  maxLines: 3),
+              buildTextField(
+                controller: _placeController,
+                label: 'Tempat',
+                hint: 'Cafe ABC',
+              ),
 
-            // Kolom untuk memilih warna yang akan diterapkan
-            // pada latar belakang task
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Warna background',
-                    style: Theme.of(context).textTheme.bodyText1,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Container(
-                        height: 40,
-                        width: 40,
-                        color: _currentColor,
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          showDialog(
-                            context: context,
-                            builder: (context) {
-                              return AlertDialog(
-                                content: BlockPicker(
-                                  pickerColor: Colors.white,
-                                  onColorChanged: (color) {
-                                    setState(() => _currentColor = color);
-                                  },
-                                ),
-                                actions: [
-                                  TextButton(
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                    },
-                                    child: const Text('Save'),
+              // Kolom untuk menampilkan tombol pilih tangal,
+              // waktu mulai, dan waktu berakhir pada task
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            Text(
+                              'Tanggal:',
+                              style: Theme.of(context).textTheme.bodyText1,
+                            ),
+                            const SizedBox(width: 10.0),
+                            Text(
+                              DateFormat.yMMMMEEEEd('id_ID')
+                                  .format(_dateTime.date),
+                            ),
+                          ],
+                        ),
+                        TextButton(
+                          onPressed: () async {
+                            final selectedDate = await showDatePicker(
+                              context: context,
+                              initialDate: _dateTime.date,
+                              firstDate: DateTime.now(),
+                              lastDate: DateTime(DateTime.now().year + 1),
+                            );
+
+                            setState(() {
+                              if (selectedDate != null) {
+                                _dateTime.date = selectedDate;
+                              }
+                            });
+                          },
+                          child: Text(
+                            'Pilih tanggal',
+                            style: TextStyle(
+                              color: _currentColor,
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            Text(
+                              'Waktu mulai:',
+                              style: Theme.of(context).textTheme.bodyText1,
+                            ),
+                            const SizedBox(width: 10.0),
+                            Text(
+                              _dateTime.startTime.format(context),
+                            ),
+                          ],
+                        ),
+                        TextButton(
+                          onPressed: () async {
+                            final selectedTime = await showTimePicker(
+                              context: context,
+                              initialTime: _dateTime.startTime,
+                            );
+
+                            setState(() {
+                              if (selectedTime != null) {
+                                _dateTime.startTime = selectedTime;
+                              }
+                            });
+                          },
+                          child: Text(
+                            'Pilih jam',
+                            style: TextStyle(
+                              color: _currentColor,
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            Text(
+                              'Waktu berakhir:',
+                              style: Theme.of(context).textTheme.bodyText1,
+                            ),
+                            const SizedBox(width: 10.0),
+                            isEndTimeValid(
+                                    _dateTime.startTime, _dateTime.endTime)
+                                ? Text(
+                                    _dateTime.endTime.format(context),
+                                  )
+                                : Text(
+                                    _dateTime.endTime.format(context),
+                                    style: const TextStyle(color: Colors.red),
                                   ),
-                                ],
-                              );
-                            },
-                          );
-                        },
-                        child: Text(
-                          'Pilih warna',
-                          style: TextStyle(color: _currentColor),
+                          ],
                         ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
+                        TextButton(
+                          onPressed: () async {
+                            final selectedTime = await showTimePicker(
+                              context: context,
+                              initialTime: _dateTime.endTime,
+                            );
 
-            // Kotak yang akan muncul jika waktu akhir tidak valid
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 20.0),
-              child: SizedBox(
-                child: Text(
-                  isEndTimeValid(_dateTime.startTime, _dateTime.endTime)
-                      ? ''
-                      : 'Peringatan: Waktu berakhir harus lebih besar dari waktu mulai!',
-                  style: const TextStyle(
-                    color: Colors.red,
-                    fontSize: 18,
-                  ),
-                  textAlign: TextAlign.center,
+                            setState(() {
+                              if (selectedTime != null) {
+                                _dateTime.endTime = selectedTime;
+                              }
+                            });
+                          },
+                          child: Text(
+                            'Pilih jam',
+                            style: TextStyle(
+                              color: _currentColor,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
               ),
-            ),
-          ],
+
+              // Kolom untuk memilih warna yang akan diterapkan
+              // pada latar belakang task
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Warna background',
+                      style: Theme.of(context).textTheme.bodyText1,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                          height: 40,
+                          width: 40,
+                          color: _currentColor,
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  content: BlockPicker(
+                                    pickerColor: Colors.white,
+                                    onColorChanged: (color) {
+                                      setState(() => _currentColor = color);
+                                    },
+                                  ),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: const Text('Save'),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          },
+                          child: Text(
+                            'Pilih warna',
+                            style: TextStyle(color: _currentColor),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+
+              // Kotak yang akan muncul jika waktu akhir tidak valid
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 20.0),
+                child: SizedBox(
+                  child: Text(
+                    isEndTimeValid(_dateTime.startTime, _dateTime.endTime)
+                        ? ''
+                        : 'Peringatan: Waktu berakhir harus lebih besar dari waktu mulai!',
+                    style: const TextStyle(
+                      color: Colors.red,
+                      fontSize: 18,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

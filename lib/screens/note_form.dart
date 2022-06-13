@@ -68,75 +68,77 @@ class _NoteFormState extends State<NoteForm> {
           )
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.only(
-          top: 16.0,
-          left: 16.0,
-          right: 16.0,
-        ),
-        child: Column(
-          children: [
-            buildTextField(
-              controller: _titleController,
-              label: 'Judul',
-              hint: 'Kontak pengacara',
-            ),
-            buildTextField(
-              controller: _noteBodyController,
-              label: 'Isi catatan',
-              hint: '+62 852-428-43234',
-              maxLines: 10,
-            ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.only(
+            top: 16.0,
+            left: 16.0,
+            right: 16.0,
+          ),
+          child: Column(
+            children: [
+              buildTextField(
+                controller: _titleController,
+                label: 'Judul',
+                hint: 'Kontak pengacara',
+              ),
+              buildTextField(
+                controller: _noteBodyController,
+                label: 'Isi catatan',
+                hint: '+62 852-428-43234',
+                maxLines: 10,
+              ),
 
-            // Colom bagian untuk tombol pilih warna
-            Container(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  ElevatedButton(
-                    onPressed: () {
-                      showDialog(
-                        context: context,
-                        builder: (context) {
-                          return AlertDialog(
-                            content: BlockPicker(
-                              pickerColor: Colors.green,
-                              onColorChanged: (color) {
-                                setState(() => _currentColor = color);
-                              },
-                            ),
-                            actions: [
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.pop(context);
+              // Colom bagian untuk tombol pilih warna
+              Container(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              content: BlockPicker(
+                                pickerColor: Colors.green,
+                                onColorChanged: (color) {
+                                  setState(() => _currentColor = color);
                                 },
-                                child: const Text('Simpan'),
                               ),
-                            ],
-                          );
-                        },
-                      );
-                    },
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all<Color>(
-                        _currentColor,
-                      ),
-                      textStyle: MaterialStateProperty.all<TextStyle>(
-                        const TextStyle(
-                          fontWeight: FontWeight.bold,
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: const Text('Simpan'),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      },
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all<Color>(
+                          _currentColor,
+                        ),
+                        textStyle: MaterialStateProperty.all<TextStyle>(
+                          const TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        foregroundColor: MaterialStateProperty.all<Color>(
+                          Colors.black,
                         ),
                       ),
-                      foregroundColor: MaterialStateProperty.all<Color>(
-                        Colors.black,
-                      ),
+                      child: const Text('Pilih warna'),
                     ),
-                    child: const Text('Pilih warna'),
-                  ),
-                ],
-              ),
-            )
-          ],
+                  ],
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );
