@@ -152,14 +152,79 @@ UserTasksManager userTaskManager([bool randomColor = false]) {
         endTime: timeConvert('16:20', 1),
       ),
     ],
+    notes: [
+      Note(
+        title: 'List Buku',
+        noteBody: '1. Suteru Gijutsu\n2. Bisnis itu mudah\n'
+            '3. Python Cookbook: Recipes for Mastering Python 3\n'
+            '4. Fluent Python',
+      ),
+      Note(
+        title: 'Bahan resep telur gulung korea',
+        noteBody: '''* 4 butir telur ayam
+* 1 batang daun bawang iris halus
+* 50 gr wortel rebus, potong dadu kecil
+* 1 sdt kaldu bubuk (mimi pakai kaldu dashi bubuk)
+* 1 sdm kecap asin
+* 1 sdt minyak wijen
+* 1/4 sdt garam
+* 1/2 sdt lada bubuk''',
+      ),
+      Note(
+        title: 'Alamat Kantor Pos Sumur',
+        noteBody:
+            '''Alamat: Jl. Asia Afrika No.49, Braga, Kec. Sumur Bandung, Kota Bandung, Jawa Barat 40111
+Jam buka: 08.00 - 16.00
+Telepon: (022) 4207081''',
+      ),
+      Note(
+        title: 'Urutan Anime Fate Series',
+        noteBody: '''1. Fate/Zero (2011)
+2. Fate/Stay Night (2006)
+3. Fate/Stay Night: Unlimited Blade Works (2014)
+4. Fate/Stay Night: Heaven Feels (2017)
+5. Fate/Kaleid Liner Prisma Illya (2013-2016)
+6. Fate/Apocrypha (2017)
+7. Fate/Grand Order: First Order (2016)
+8. Fate/Grand Order-Absolute Demonic Front: Babylonia (2019)
+9. Fate/EXTRA: Last Encore (2018)
+''',
+      ),
+      Note(
+        title: 'Roadmap belajar flutter',
+        noteBody: 'https://github.com/olexale/flutter_roadmap',
+      ),
+      Note(
+        title: 'Passwd',
+        noteBody: '''123456.
+123456789.
+qwerty.
+password.
+12345.
+qwerty123.
+1q2w3e.
+12345678.''',
+      ),
+      Note(
+        title: 'Kode Hongkong malam ini 😅',
+        noteBody:
+            '9308 02468 9328 91357 6217 13579 4113 57913 6801 57913 7243 68024 2840 24680 6034 68024',
+      )
+    ],
   );
 
-  // Set warna random untuk setiap task
+  // Set warna random untuk setiap task dan note
   if (randomColor) {
     for (var task in taskManagers.allTask) {
       task.background =
           Colors.primaries[random.nextInt(Colors.primaries.length)]
-              [random.nextInt(5) * 100];
+              [(random.nextInt(5) * 100) + 100];
+    }
+
+    for (var note in taskManagers.allNotes) {
+      note.background =
+          Colors.primaries[random.nextInt(Colors.primaries.length)]
+              [(random.nextInt(5) * 100) + 100];
     }
   }
 
