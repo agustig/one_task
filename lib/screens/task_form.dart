@@ -328,6 +328,7 @@ class _TaskFormState extends State<TaskForm> {
           TextField(
             controller: controller,
             maxLines: maxLines,
+            autocorrect: false,
             decoration: InputDecoration(
               hintText: hint,
               enabledBorder: UnderlineInputBorder(
