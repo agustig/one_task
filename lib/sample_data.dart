@@ -215,7 +215,7 @@ qwerty123.
 
   // Set warna random untuk setiap task dan note
   if (randomColor) {
-    for (var task in taskManagers.allTask) {
+    for (var task in taskManagers.allTasks) {
       task.background =
           Colors.primaries[random.nextInt(Colors.primaries.length)]
               [(random.nextInt(5) * 100) + 100];

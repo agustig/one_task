@@ -59,7 +59,7 @@ class _ScheduleViewState extends State<ScheduleView> {
                   CalendarView.timelineMonth,
                   CalendarView.schedule
                 ],
-                dataSource: TaskDataSource(widget.tasksManager.allTask),
+                dataSource: TaskDataSource(widget.tasksManager.allTasks),
                 scheduleViewSettings: ScheduleViewSettings(
                   appointmentTextStyle: Theme.of(context).textTheme.bodyText2,
                 ),

@@ -64,7 +64,7 @@ class UserTasksManager {
   }
 
   /// Mengambil semua task dalam bentuk list
-  List<Task> get allTask => _tasks;
+  List<Task> get allTasks => _tasks;
 
   /// Mengambil semua note dalam bentuk list
   List<Note> get allNotes => _notes;
