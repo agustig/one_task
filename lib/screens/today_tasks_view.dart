@@ -2,6 +2,7 @@ import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:one_task/models/models.dart';
 
+/// Menampilak task yang berlangsung hari ini
 class TodayTasksView extends StatefulWidget {
   const TodayTasksView({Key? key, required this.tasksManager})
       : super(key: key);
@@ -91,12 +92,14 @@ class _TodayTasksViewState extends State<TodayTasksView> {
                                               .textTheme
                                               .headline3,
                                         ),
+                                        const SizedBox(height: 8.0),
                                         Text(
                                           task.detail,
                                           style: Theme.of(context)
                                               .textTheme
                                               .bodyText2,
                                         ),
+                                        const SizedBox(height: 6.0),
                                         Text(
                                           '${DateFormat("hh:mm a").format(task.startTime)} - '
                                           '${DateFormat("hh:mm a").format(task.endTime)}',
