@@ -353,12 +353,15 @@ class _TaskFormState extends State<TaskForm> {
   /// Fungsi yang memeriksa apakah waktu berakhir task
   /// lebih awal dari waktu task dimulai.
   bool isEndTimeValid(TimeOfDay start, TimeOfDay end) {
-    if (end.hour - start.hour <= 0) {
-      if (end.minute - start.minute <= 0) {
-        return false;
+    if (end.hour - start.hour == 0) {
+      if (end.minute - start.minute > 0) {
+        return true;
       }
+    } else if (end.hour - start.hour > 0) {
+      return true;
     }
-    return true;
+
+    return false;
   }
 
   @override
