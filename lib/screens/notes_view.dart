@@ -1,6 +1,4 @@
-import 'dart:io';
 import 'package:intl/intl.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:one_task/models/models.dart';
 import 'package:one_task/screens/screens.dart';
@@ -102,63 +100,33 @@ class _NotesViewState extends State<NotesView> {
                             // Ketika note dipendam(onLongPress), akan muncul peringatan
                             // hapus note yang bersangkutan.
                             onLongPress: () {
-                              if (!Platform.isIOS) {
-                                showDialog(
-                                  context: context,
-                                  builder: (context) {
-                                    return AlertDialog(
-                                      title: const Text('Hapus catatan'),
-                                      content: const Text(
-                                        'Apakah anda yakin untuk menghapus catatan ini?',
+                              showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    title: const Text('Hapus catatan'),
+                                    content: const Text(
+                                      'Apakah anda yakin untuk menghapus catatan ini?',
+                                    ),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () {
+                                          widget.tasksManager.allNotes
+                                              .remove(note);
+                                          Navigator.pop(context);
+                                        },
+                                        child: const Text('Hapus'),
                                       ),
-                                      actions: [
-                                        TextButton(
-                                          onPressed: () {
-                                            widget.tasksManager.allNotes
-                                                .remove(note);
-                                            Navigator.pop(context);
-                                          },
-                                          child: const Text('Hapus'),
-                                        ),
-                                        TextButton(
-                                          onPressed: () {
-                                            Navigator.pop(context);
-                                          },
-                                          child: const Text('Batal'),
-                                        ),
-                                      ],
-                                    );
-                                  },
-                                ).then((value) => setState(() {}));
-                              } else {
-                                showCupertinoDialog(
-                                  context: context,
-                                  builder: (context) {
-                                    return CupertinoAlertDialog(
-                                      title: const Text('Hapus catatan'),
-                                      content: const Text(
-                                        'Apakah anda yakin untuk menghapus catatan ini?',
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                        child: const Text('Batal'),
                                       ),
-                                      actions: [
-                                        TextButton(
-                                          onPressed: () {
-                                            widget.tasksManager.allNotes
-                                                .remove(note);
-                                            Navigator.pop(context);
-                                          },
-                                          child: const Text('Hapus'),
-                                        ),
-                                        TextButton(
-                                          onPressed: () {
-                                            Navigator.pop(context);
-                                          },
-                                          child: const Text('Batal'),
-                                        ),
-                                      ],
-                                    );
-                                  },
-                                ).then((value) => setState(() {}));
-                              }
+                                    ],
+                                  );
+                                },
+                              ).then((value) => setState(() {}));
                             },
                             child: Card(
                               color: note.background,
