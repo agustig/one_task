@@ -3,7 +3,7 @@ import 'package:intl/intl.dart';
 
 import '../../logic/logic.dart';
 import '../../models/note.dart';
-import '../screens/screens.dart';
+import '../views.dart';
 
 class NoteGrid extends StatelessWidget {
   const NoteGrid({Key? key, required this.note}) : super(key: key);
@@ -20,13 +20,10 @@ class NoteGrid extends StatelessWidget {
           Expanded(
             flex: 4,
             child: InkWell(
-              // Ketika note ditekan(onTap), halaman akan berpindah
-              // ke halaman NoteForm untuk mengedit note.
+              // Ketika note ditekan(onTap), muncul halaman popup
+              // NoteForm untuk mengedit note.
               onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => NoteFormScreen(note: note)),
-                );
+                showFormDialog(context, NoteFormScreen(note: note));
               },
 
               // Ketika note dipendam(onLongPress), akan muncul peringatan
@@ -43,10 +40,9 @@ class NoteGrid extends StatelessWidget {
                       actions: [
                         TextButton(
                           onPressed: () {
-                            // widget.tasksManager.allNotes.remove(note);
-                            context
-                                .read<NotesBloc>()
-                                .add(RemoveNote(note: note));
+                            context.read<NotesBloc>().add(
+                                  RemoveNote(note: note),
+                                );
                             Navigator.pop(context);
                           },
                           child: const Text('Hapus'),

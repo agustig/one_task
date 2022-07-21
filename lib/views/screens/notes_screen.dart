@@ -4,23 +4,15 @@ import '../../logic/logic.dart';
 import '../views.dart';
 
 /// Halaman untuk menampilkan semua note / catatan.
-class NotesScreen extends StatefulWidget {
+class NotesScreen extends StatelessWidget {
   const NotesScreen({Key? key}) : super(key: key);
 
-  @override
-  State<NotesScreen> createState() => _NotesScreenState();
-}
-
-class _NotesScreenState extends State<NotesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const NoteFormScreen()),
-          );
+          showFormDialog(context, const NoteFormScreen());
         },
         child: const Icon(Icons.add),
       ),
@@ -58,7 +50,6 @@ class _NotesScreenState extends State<NotesScreen> {
               title: Text(
                 'Daftar catatan',
                 style: Theme.of(context).textTheme.headline3,
-                // textAlign: TextAlign.center,
               ),
               background: BlocBuilder<NotesBloc, NotesState>(
                 builder: (context, state) {

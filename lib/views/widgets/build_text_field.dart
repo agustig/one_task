@@ -6,37 +6,31 @@ class BuildTextField extends StatelessWidget {
     required this.controller,
     required this.label,
     required this.hint,
+    this.minLines = 1,
     this.maxLines = 1,
   }) : super(key: key);
 
   final TextEditingController controller;
   final String label;
   final String hint;
+  final int minLines;
   final int maxLines;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            label,
-            style: Theme.of(context).textTheme.bodyText1,
-          ),
-          TextField(
-            controller: controller,
-            maxLines: maxLines,
-            autocorrect: false,
-            decoration: InputDecoration(
-              hintText: hint,
-              enabledBorder: const UnderlineInputBorder(),
-              focusedBorder: const UnderlineInputBorder(),
-              border: const UnderlineInputBorder(),
-            ),
-          ),
-        ],
+      padding: const EdgeInsets.symmetric(vertical: 10),
+      child: TextField(
+        controller: controller,
+        minLines: minLines,
+        maxLines: maxLines,
+        autocorrect: false,
+        autofocus: true,
+        decoration: InputDecoration(
+          label: Text(label),
+          hintText: hint,
+          border: const OutlineInputBorder(),
+        ),
       ),
     );
   }

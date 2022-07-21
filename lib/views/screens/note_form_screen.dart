@@ -24,70 +24,58 @@ class NoteFormScreen extends StatelessWidget {
       noteBodyController.text = note!.noteBody;
     }
 
-    return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        leading: Padding(
-          padding: const EdgeInsets.only(left: 16.0),
-          child: IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: const Icon(Icons.arrow_back_ios),
+    return Padding(
+      padding: const EdgeInsets.all(20),
+      child: Column(
+        children: [
+          Text(
+            note != null ? 'Edit catatan' : 'Tambah catatan',
+            style: Theme.of(context).textTheme.headline2,
           ),
-        ),
-        title: Text(
-          note != null ? 'Edit catatan' : 'Tambah catatan',
-        ),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 16.0),
-            child: IconButton(
-              onPressed: () {
-                // Periksa apakah edit note atau tambah note baru
-                final newNote = Note(
-                  title: titleController.text,
-                  noteBody: noteBodyController.text,
-                );
-                if (note != null) {
-                  context.read<NotesBloc>().add(EditNote(
-                        oldNote: note!,
-                        newNote: newNote,
-                      ));
-                } else {
-                  // notes.add(newNote);
-                  context.read<NotesBloc>().add(AddNote(note: newNote));
-                }
-                Navigator.pop(context);
-              },
-              icon: const Icon(Icons.check),
-            ),
-          )
-        ],
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.only(
-            top: 16.0,
-            left: 16.0,
-            right: 16.0,
+          const SizedBox(height: 10),
+          BuildTextField(
+            controller: titleController,
+            label: 'Judul',
+            hint: 'Kontak pengacara',
           ),
-          child: Column(
+          BuildTextField(
+            controller: noteBodyController,
+            label: 'Isi catatan',
+            hint: '+62 852-428-43234',
+            minLines: 3,
+            maxLines: 5,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              BuildTextField(
-                controller: titleController,
-                label: 'Judul',
-                hint: 'Kontak pengacara',
+              TextButton(
+                onPressed: () {
+                  // Periksa apakah edit note atau tambah note baru
+                  final newNote = Note(
+                    title: titleController.text,
+                    noteBody: noteBodyController.text,
+                  );
+                  if (note != null) {
+                    context.read<NotesBloc>().add(EditNote(
+                          oldNote: note!,
+                          newNote: newNote,
+                        ));
+                  } else {
+                    context.read<NotesBloc>().add(AddNote(note: newNote));
+                  }
+                  Navigator.pop(context);
+                },
+                child: Text(note != null ? 'Edit' : 'Tambah'),
               ),
-              BuildTextField(
-                controller: noteBodyController,
-                label: 'Isi catatan',
-                hint: '+62 852-428-43234',
-                maxLines: 10,
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text('Batal'),
               ),
             ],
           ),
-        ),
+        ],
       ),
     );
   }

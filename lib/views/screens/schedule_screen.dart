@@ -2,14 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 import '../../logic/logic.dart';
-import 'screens.dart';
+import '../../models/task.dart';
+import '../views.dart';
 
 class ScheduleScreen extends StatefulWidget {
-  const ScheduleScreen({
-    Key? key,
-    // required this.tasksManager,
-  }) : super(key: key);
-  // final UserTasksManager tasksManager;
+  const ScheduleScreen({Key? key}) : super(key: key);
 
   @override
   State<ScheduleScreen> createState() => _ScheduleScreenState();
@@ -21,13 +18,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // Navigasi ke halaman TaskFrom setelah itu refresh state
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const TaskFormScreen(),
-            ),
-          ).then((value) => setState(() {}));
+          showFormDialog(context, const TaskFormScreen());
         },
         child: const Icon(Icons.add),
       ),
@@ -47,27 +38,29 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
             ),
             const SizedBox(height: 16.0),
             Expanded(
-              child: SfCalendar(
-                view: CalendarView.week,
-                allowedViews: const [
-                  CalendarView.day,
-                  CalendarView.workWeek,
-                  CalendarView.week,
-                  CalendarView.month,
-                  CalendarView.timelineDay,
-                  CalendarView.timelineWeek,
-                  CalendarView.timelineWorkWeek,
-                  CalendarView.timelineMonth,
-                  CalendarView.schedule
-                ],
-                dataSource: TaskDataSource(BlocProvider.of<TasksBloc>(context).state.allTasks),
-                scheduleViewSettings: ScheduleViewSettings(
-                  appointmentTextStyle: Theme.of(context).textTheme.bodyText2,
-                ),
-                monthViewSettings: const MonthViewSettings(showAgenda: true),
-                timeSlotViewSettings: const TimeSlotViewSettings(
-                  timelineAppointmentHeight: 100,
-                ),
+              child: BlocBuilder<TasksBloc, TasksState>(
+                builder: (context, state) {
+                  return SfCalendar(
+                    view: CalendarView.schedule,
+                    allowedViews: const [
+                      CalendarView.day,
+                      CalendarView.week,
+                      CalendarView.month,
+                      CalendarView.timelineWeek,
+                      CalendarView.schedule
+                    ],
+                    dataSource: TaskDataSource(state.allTasks),
+                    scheduleViewSettings: ScheduleViewSettings(
+                      appointmentTextStyle:
+                          Theme.of(context).textTheme.bodyText2,
+                    ),
+                    monthViewSettings:
+                        const MonthViewSettings(showAgenda: true),
+                    timeSlotViewSettings: const TimeSlotViewSettings(
+                      timelineAppointmentHeight: 100,
+                    ),
+                  );
+                },
               ),
             ),
           ],
@@ -80,7 +73,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
 /// Implementasi dari list [Task] ke [SfCalendar]
 /// melalui [CalendarDataSource]
 class TaskDataSource extends CalendarDataSource {
-  TaskDataSource(tasks) {
+  TaskDataSource(List<Task> tasks) {
     appointments = tasks;
   }
 
@@ -101,6 +94,6 @@ class TaskDataSource extends CalendarDataSource {
 
   @override
   Color getColor(int index) {
-    return appointments![index].background ?? Colors.green;
+    return appointments![index].background;
   }
 }
