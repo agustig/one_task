@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
-import 'package:one_task/screens/screens.dart';
-import 'package:one_task/models/models.dart';
 
-class ScheduleView extends StatefulWidget {
-  const ScheduleView({
+import '../../logic/logic.dart';
+import 'screens.dart';
+
+class ScheduleScreen extends StatefulWidget {
+  const ScheduleScreen({
     Key? key,
-    required this.tasksManager,
+    // required this.tasksManager,
   }) : super(key: key);
-  final UserTasksManager tasksManager;
+  // final UserTasksManager tasksManager;
 
   @override
-  State<ScheduleView> createState() => _ScheduleViewState();
+  State<ScheduleScreen> createState() => _ScheduleScreenState();
 }
 
-class _ScheduleViewState extends State<ScheduleView> {
+class _ScheduleScreenState extends State<ScheduleScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,7 +25,7 @@ class _ScheduleViewState extends State<ScheduleView> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => TaskForm(taskManager: widget.tasksManager),
+              builder: (context) => const TaskFormScreen(),
             ),
           ).then((value) => setState(() {}));
         },
@@ -59,7 +60,7 @@ class _ScheduleViewState extends State<ScheduleView> {
                   CalendarView.timelineMonth,
                   CalendarView.schedule
                 ],
-                dataSource: TaskDataSource(widget.tasksManager.allTasks),
+                dataSource: TaskDataSource(BlocProvider.of<TasksBloc>(context).state.allTasks),
                 scheduleViewSettings: ScheduleViewSettings(
                   appointmentTextStyle: Theme.of(context).textTheme.bodyText2,
                 ),

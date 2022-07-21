@@ -1,71 +1,43 @@
-import 'package:intl/intl.dart';
-import 'package:one_task/models/models.dart';
+import 'package:equatable/equatable.dart';
 
 /// Class yang berisikan informasi pengguna
-class User {
-  User({required this.name, required this.image});
+class User extends Equatable {
+  const User({required this.name, required this.image});
 
   /// Nama pengguna
-  String name;
+  final String name;
 
   /// Photo profile pengguna
-  String image;
-}
+  final String image;
 
-/// Pengatur task pengguna
-class UserTasksManager {
-  UserTasksManager({
-    required this.user,
-    required List<Task> tasks,
-    List<Note>? notes,
-  }) : _tasks = tasks {
-    // Menambahkan notes ke dalam _notes apabila
-    // notes tidak kosong
-    if (notes != null) {
-      _notes.addAll(notes);
-    }
+  factory User.sampleUser() {
+    return const User(
+      name: 'Agusti Gunawan',
+      image: 'images/20210125_182525.jpg',
+    );
   }
 
-  /// Class dari pengguna
-  final User user;
-
-  // Semua task di satu pengguna
-  final List<Task> _tasks;
-
-  // Semua note di satu pengguna
-  final _notes = <Note>[];
-
-  /// List task yang hari ini
-  List<Task> get todayTask {
-    final tasksToday = <Task>[];
-    for (var task in _tasks) {
-      final startDate = DateFormat('yyyy-MM-dd').format(task.startTime);
-      final todayDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
-      if (startDate == todayDate) {
-        tasksToday.add(task);
-      }
-    }
-    return tasksToday;
+  User copyWith({String? name, String? image}) {
+    return User(
+      name: name ?? this.name,
+      image: image ?? this.image,
+    );
   }
 
-  /// Menambah task baru ke dalam list
-  addTask(Task task) {
-    _tasks.add(task);
+  factory User.fromJson(Map<String, dynamic> json) {
+    return User(
+      name: json['name'],
+      image: json['image'],
+    );
   }
 
-  /// Menambah note baru ke dalam list
-  addNote(Note note) {
-    _notes.add(note);
+  Map<String, dynamic> toJson() {
+    return {
+      'name': name,
+      'image': image,
+    };
   }
 
-  /// Menghapus note dari list
-  deleteNote(int index) {
-    _notes.removeAt(index);
-  }
-
-  /// Mengambil semua task dalam bentuk list
-  List<Task> get allTasks => _tasks;
-
-  /// Mengambil semua note dalam bentuk list
-  List<Note> get allNotes => _notes;
+  @override
+  List<Object?> get props => [name, image];
 }

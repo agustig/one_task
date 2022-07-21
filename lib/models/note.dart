@@ -1,29 +1,35 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+
+import '../services/color_gen.dart';
 
 /// Class Note barisikan catatan yang mungkin akan dilihat kembali
 /// di masa yang akan datang.
-class Note {
+class Note extends Equatable {
   Note({
     required this.title,
     required this.noteBody,
-    this.background = Colors.white,
-  })  : _createDate = DateTime.now(),
-        _modifiedDate = DateTime.now();
+    DateTime? createDate,
+    DateTime? modifiedDate,
+    Color? background,
+  })  : _background = (background ?? ColorGen.generate()) ?? Colors.white,
+        _createDate = createDate ?? DateTime.now(),
+        _modifiedDate = modifiedDate ?? DateTime.now();
 
   /// Judul note
-  String title;
+  final String title;
 
   /// Isi note
-  String noteBody;
+  final String noteBody;
 
   // Tanggal dibuat: ini akan otomatis dibuat
   final DateTime _createDate;
 
   // Tanggal pembaruan: ini akan otomatis diperbarui
-  DateTime _modifiedDate;
+  final DateTime _modifiedDate;
 
   /// Warna background pada note ketika ditampilkan
-  Color? background;
+  final Color _background;
 
   /// Getter untuk mengambil info tanggal dibuat
   DateTime get createDate => _createDate;
@@ -31,23 +37,37 @@ class Note {
   /// Getter untuk mengambil info tanggal terakhi diperbarui
   DateTime get modifiedDate => _modifiedDate;
 
-  /// Funsi atau method untuk memperbarui note
-  void updateNote({
-    String? newTitle,
-    String? newNoteBody,
-    Color? newBackground,
-  }) {
-    if (newTitle != null) {
-      title = newTitle;
-      _modifiedDate = DateTime.now();
-    }
-    if (newNoteBody != null) {
-      noteBody = newNoteBody;
-      _modifiedDate = DateTime.now();
-    }
-    if (newBackground != null) {
-      background = newBackground;
-      _modifiedDate = DateTime.now();
-    }
+  /// Getter untuk mengambil info warna latar belakang
+  Color get background => _background;
+
+  Note copyWith(String? title, String? noteBody) {
+    return Note(
+      title: title ?? this.title,
+      noteBody: noteBody ?? this.noteBody,
+      createDate: createDate,
+      background: background,
+    );
   }
+
+  factory Note.fromJson(Map<String, dynamic> json) {
+    return Note(
+      title: json['title'],
+      noteBody: json['note_body'],
+      createDate: DateTime.parse(json['create_date']),
+      modifiedDate: DateTime.parse(json['modified_date']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'title': title,
+      'note_body': noteBody,
+      'create_date': createDate.toString(),
+      'modified_date': modifiedDate.toString(),
+    };
+  }
+
+  @override
+  List<Object?> get props =>
+      [title, noteBody, _createDate, _modifiedDate, _background];
 }

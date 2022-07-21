@@ -1,26 +1,22 @@
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_colorpicker/flutter_colorpicker.dart';
-import 'package:one_task/models/models.dart';
 
-class TaskForm extends StatefulWidget {
-  const TaskForm({
+import '../../logic/logic.dart';
+import '../../models/task.dart';
+
+class TaskFormScreen extends StatefulWidget {
+  const TaskFormScreen({
     Key? key,
-    required this.taskManager,
   }) : super(key: key);
 
-  final UserTasksManager taskManager;
-
   @override
-  State<TaskForm> createState() => _TaskFormState();
+  State<TaskFormScreen> createState() => _TaskFormScreenState();
 }
 
-class _TaskFormState extends State<TaskForm> {
+class _TaskFormScreenState extends State<TaskFormScreen> {
   final _titleController = TextEditingController();
   final _detailController = TextEditingController();
-  final _placeController = TextEditingController();
   final _dateTime = TaskTime();
-  Color _currentColor = Colors.green;
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +46,6 @@ class _TaskFormState extends State<TaskForm> {
                   final newTask = Task(
                     title: _titleController.text,
                     detail: _detailController.text,
-                    place: _placeController.text,
                     startTime: DateTime(
                       _dateTime.date.year,
                       _dateTime.date.month,
@@ -65,10 +60,9 @@ class _TaskFormState extends State<TaskForm> {
                       _dateTime.endTime.hour,
                       _dateTime.endTime.minute,
                     ),
-                    background: _currentColor,
                   );
 
-                  widget.taskManager.addTask(newTask);
+                  context.read<TasksBloc>().add(AddTask(task: newTask));
                   Navigator.pop(context);
                 } else {
                   // Jika tidak valid, maka akan muncul SnackBar
@@ -95,14 +89,10 @@ class _TaskFormState extends State<TaskForm> {
                 hint: 'Rapat',
               ),
               buildTextField(
-                  controller: _detailController,
-                  label: 'Detail',
-                  hint: 'Rapat dengan client mengenai gol proyek',
-                  maxLines: 3),
-              buildTextField(
-                controller: _placeController,
-                label: 'Tempat',
-                hint: 'Cafe ABC',
+                controller: _detailController,
+                label: 'Detail',
+                hint: 'Rapat dengan client mengenai gol proyek',
+                maxLines: 3,
               ),
 
               // Kolom untuk menampilkan tombol pilih tangal,
@@ -142,11 +132,9 @@ class _TaskFormState extends State<TaskForm> {
                               }
                             });
                           },
-                          child: Text(
+                          child: const Text(
                             'Pilih tanggal',
-                            style: TextStyle(
-                              color: _currentColor,
-                            ),
+                            style: TextStyle(),
                           ),
                         )
                       ],
@@ -179,11 +167,9 @@ class _TaskFormState extends State<TaskForm> {
                               }
                             });
                           },
-                          child: Text(
+                          child: const Text(
                             'Pilih jam',
-                            style: TextStyle(
-                              color: _currentColor,
-                            ),
+                            style: TextStyle(),
                           ),
                         )
                       ],
@@ -222,65 +208,9 @@ class _TaskFormState extends State<TaskForm> {
                               }
                             });
                           },
-                          child: Text(
+                          child: const Text(
                             'Pilih jam',
-                            style: TextStyle(
-                              color: _currentColor,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-
-              // Kolom untuk memilih warna yang akan diterapkan
-              // pada latar belakang task
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Warna background',
-                      style: Theme.of(context).textTheme.bodyText1,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(
-                          height: 40,
-                          width: 40,
-                          color: _currentColor,
-                        ),
-                        TextButton(
-                          onPressed: () {
-                            showDialog(
-                              context: context,
-                              builder: (context) {
-                                return AlertDialog(
-                                  content: BlockPicker(
-                                    pickerColor: Colors.white,
-                                    onColorChanged: (color) {
-                                      setState(() => _currentColor = color);
-                                    },
-                                  ),
-                                  actions: [
-                                    TextButton(
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                      },
-                                      child: const Text('Save'),
-                                    ),
-                                  ],
-                                );
-                              },
-                            );
-                          },
-                          child: Text(
-                            'Pilih warna',
-                            style: TextStyle(color: _currentColor),
+                            style: TextStyle(),
                           ),
                         ),
                       ],
@@ -334,15 +264,9 @@ class _TaskFormState extends State<TaskForm> {
             autocorrect: false,
             decoration: InputDecoration(
               hintText: hint,
-              enabledBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: _currentColor),
-              ),
-              focusedBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: _currentColor),
-              ),
-              border: UnderlineInputBorder(
-                borderSide: BorderSide(color: _currentColor),
-              ),
+              enabledBorder: const UnderlineInputBorder(),
+              focusedBorder: const UnderlineInputBorder(),
+              border: const UnderlineInputBorder(),
             ),
           ),
         ],
@@ -369,7 +293,6 @@ class _TaskFormState extends State<TaskForm> {
     // Dispose untuk semua controller
     _titleController.dispose();
     _detailController.dispose();
-    _placeController.dispose();
 
     // Mamanggil fungsi dispose dari parent
     super.dispose();

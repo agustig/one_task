@@ -1,29 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:one_task/sample_data.dart';
-import 'package:one_task/screens/screens.dart';
 
-class Home extends StatefulWidget {
-  const Home({Key? key}) : super(key: key);
+import '../../logic/logic.dart';
+import 'screens.dart';
+
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({Key? key}) : super(key: key);
 
   @override
-  State<Home> createState() => _HomeState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeState extends State<Home> {
+class _HomeScreenState extends State<HomeScreen> {
   /// Pengatur tampilan menu utama
   var currentPage = 1;
 
   /// Halaman pada tampilan utama
   final pages = [
-    ScheduleView(
-      tasksManager: userTaskManager(true),
-    ),
-    TodayTasksView(
-      tasksManager: userTaskManager(true),
-    ),
-    NotesView(
-      tasksManager: userTaskManager(true),
-    ),
+    const ScheduleScreen(),
+    const TodayTasksScreen(),
+    const NotesScreen(),
   ];
 
   @override
@@ -36,9 +31,13 @@ class _HomeState extends State<Home> {
               elevation: 0.0,
               leading: Padding(
                 padding: const EdgeInsets.only(left: 16.0),
-                child: CircleAvatar(
-                  backgroundColor: Colors.transparent,
-                  backgroundImage: AssetImage(userTaskManager().user.image),
+                child: BlocBuilder<UserCubit, UserState>(
+                  builder: (context, state) {
+                    return CircleAvatar(
+                      backgroundColor: Colors.transparent,
+                      backgroundImage: AssetImage(state.user.image),
+                    );
+                  },
                 ),
               ),
               actions: [
