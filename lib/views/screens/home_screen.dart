@@ -64,18 +64,26 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return Scaffold(
       floatingActionButton: floatingActionButtons[currentPage],
+      drawer: const ProfileDrawer(),
       body: CustomScrollView(
         shrinkWrap: true,
         slivers: [
           SliverAppBar(
             leading: Padding(
               padding: const EdgeInsets.only(left: 16.0),
-              child: CircleAvatar(
-                backgroundColor: Colors.transparent,
-                backgroundImage: AssetImage(
-                  context.watch<UserCubit>().state.user.image,
-                ),
-              ),
+              child: Builder(builder: (context) {
+                return GestureDetector(
+                  onTap: () {
+                    Scaffold.of(context).openDrawer();
+                  },
+                  child: CircleAvatar(
+                    backgroundColor: Colors.transparent,
+                    backgroundImage: AssetImage(
+                      context.watch<UserCubit>().state.user.image,
+                    ),
+                  ),
+                );
+              }),
             ),
             actions: [
               Padding(
