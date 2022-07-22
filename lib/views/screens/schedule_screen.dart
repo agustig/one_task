@@ -3,7 +3,6 @@ import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 import '../../logic/logic.dart';
 import '../../models/task.dart';
-import '../views.dart';
 
 class ScheduleScreen extends StatefulWidget {
   const ScheduleScreen({Key? key}) : super(key: key);
@@ -15,55 +14,34 @@ class ScheduleScreen extends StatefulWidget {
 class _ScheduleScreenState extends State<ScheduleScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          showFormDialog(context, const TaskFormScreen());
-        },
-        child: const Icon(Icons.add),
-      ),
-      body: Container(
-        constraints: const BoxConstraints(),
+    return SliverToBoxAdapter(
+      child: Container(
+        height: MediaQuery.of(context).size.height - 240,
         padding: const EdgeInsets.only(
-          top: 16.0,
           left: 16.0,
           right: 16.0,
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Skedul',
-              style: Theme.of(context).textTheme.headline1,
-            ),
-            const SizedBox(height: 16.0),
-            Expanded(
-              child: BlocBuilder<TasksBloc, TasksState>(
-                builder: (context, state) {
-                  return SfCalendar(
-                    view: CalendarView.schedule,
-                    allowedViews: const [
-                      CalendarView.day,
-                      CalendarView.week,
-                      CalendarView.month,
-                      CalendarView.timelineWeek,
-                      CalendarView.schedule
-                    ],
-                    dataSource: TaskDataSource(state.allTasks),
-                    scheduleViewSettings: ScheduleViewSettings(
-                      appointmentTextStyle:
-                          Theme.of(context).textTheme.bodyText2,
-                    ),
-                    monthViewSettings:
-                        const MonthViewSettings(showAgenda: true),
-                    timeSlotViewSettings: const TimeSlotViewSettings(
-                      timelineAppointmentHeight: 100,
-                    ),
-                  );
-                },
+        child: BlocBuilder<TasksBloc, TasksState>(
+          builder: (context, state) {
+            return SfCalendar(
+              view: CalendarView.schedule,
+              allowedViews: const [
+                CalendarView.day,
+                CalendarView.week,
+                CalendarView.month,
+                CalendarView.timelineWeek,
+                CalendarView.schedule
+              ],
+              dataSource: TaskDataSource(state.allTasks),
+              scheduleViewSettings: ScheduleViewSettings(
+                appointmentTextStyle: Theme.of(context).textTheme.bodyText2,
               ),
-            ),
-          ],
+              monthViewSettings: const MonthViewSettings(showAgenda: true),
+              timeSlotViewSettings: const TimeSlotViewSettings(
+                timelineAppointmentHeight: 100,
+              ),
+            );
+          },
         ),
       ),
     );
