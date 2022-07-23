@@ -27,7 +27,7 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
-  cupertino_icons: ^1.0.2
+  cupertino_icons: ^1.0.5
   equatable: ^2.0.3
   flutter:
     sdk: flutter
@@ -38,11 +38,12 @@ dependencies:
   hydrated_bloc: ^8.1.0
   intl: ^0.17.0
   path_provider: ^2.0.11
-  syncfusion_flutter_calendar: ^20.1.59
-  syncfusion_localizations: ^20.1.59
+  syncfusion_flutter_calendar: ^20.2.39
+  syncfusion_localizations: ^20.2.39
+  uuid: ^3.0.6
 
 dev_dependencies:
-  flutter_lints: ^2.0.0
+  flutter_lints: ^2.0.1
   flutter_test:
     sdk: flutter
 
