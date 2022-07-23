@@ -17,6 +17,9 @@ ThemeData oneTaskTheme() {
       backgroundColor: Colors.white,
       selectedItemColor: Colors.black,
     ),
+    checkboxTheme: const CheckboxThemeData(
+      shape: CircleBorder(),
+    ),
     textTheme: const TextTheme(
       bodyText1: TextStyle(
         color: Colors.black,
