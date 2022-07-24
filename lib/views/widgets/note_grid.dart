@@ -40,12 +40,21 @@ class NoteGrid extends StatelessWidget {
                       actions: [
                         TextButton(
                           onPressed: () {
-                            context.read<NotesBloc>().add(
-                                  RemoveNote(note: note),
-                                );
+                            if (note.isRemoved) {
+                              context.read<NotesBloc>().add(
+                                    DeleteNote(note: note),
+                                  );
+                            } else {
+                              context.read<NotesBloc>().add(
+                                    RemoveNote(note: note),
+                                  );
+                            }
+
                             Navigator.pop(context);
                           },
-                          child: const Text('Hapus'),
+                          child: Text(
+                            note.isRemoved ? 'Hapus Selamanya' : 'Hapus',
+                          ),
                         ),
                         TextButton(
                           onPressed: () {

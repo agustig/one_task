@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../logic/logic.dart';
+import 'bin_screen.dart';
 
 class ProfileDrawer extends StatelessWidget {
   const ProfileDrawer({
@@ -10,6 +11,7 @@ class ProfileDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final userState = context.watch<UserCubit>().state.user;
+    final notesState = context.watch<NotesBloc>().state;
 
     return SafeArea(
       child: Drawer(
@@ -43,17 +45,28 @@ class ProfileDrawer extends StatelessWidget {
                   ),
                   ListTile(
                     leading: const Icon(Icons.edit),
-                    title: const Text('Edit Profile'),
+                    title: const Text('Edit Profil'),
                     onTap: () {},
                   ),
                   ListTile(
                     leading: const Icon(Icons.folder_delete_outlined),
-                    title: const Text('Deleted Tasks'),
-                    onTap: () {},
+                    title: const Text('Kotak Sampah'),
+                    trailing: Text(
+                      '${notesState.notes.length}/${notesState.removedNotes.length}',
+                    ),
+                    onTap: () {
+                      Navigator.pop(context);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const BinScreen(),
+                        ),
+                      );
+                    },
                   ),
                   ListTile(
                     leading: const Icon(Icons.logout),
-                    title: const Text('Logout'),
+                    title: const Text('Keluar'),
                     onTap: () {},
                   ),
                 ],

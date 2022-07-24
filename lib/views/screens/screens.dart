@@ -1,3 +1,4 @@
+export 'bin_screen.dart';
 export 'home_screen.dart';
 export 'note_form_screen.dart';
 export 'notes_screen.dart';

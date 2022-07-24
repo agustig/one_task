@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import '../../logic/logic.dart';
 import '../../models/note.dart';
@@ -51,8 +52,14 @@ class NoteFormScreen extends StatelessWidget {
               TextButton(
                 onPressed: () {
                   // Periksa apakah edit note atau tambah note baru
+                  // dan memberi judul defaul apabila zero value
+                  final noteTitle = (titleController.text != '')
+                      ? titleController.text
+                      : 'Catatan ${DateFormat('MM/dd').format(
+                          (note != null) ? note!.createDate : DateTime.now(),
+                        )}';
                   final newNote = Note(
-                    title: titleController.text,
+                    title: noteTitle,
                     noteBody: noteBodyController.text,
                   );
                   if (note != null) {

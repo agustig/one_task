@@ -24,6 +24,26 @@ class EditNote extends NotesEvent {
   List<Object> get props => [oldNote, newNote];
 }
 
+class SelectNote extends NotesEvent {
+  const SelectNote({required this.note});
+  final Note note;
+
+  @override
+  List<Object> get props => [note];
+}
+
+class UnselectNote extends NotesEvent {
+  const UnselectNote({required this.note});
+  final Note note;
+
+  @override
+  List<Object> get props => [note];
+}
+
+class SelectAllNotes extends NotesEvent {}
+
+class UnselectAllNotes extends NotesEvent {}
+
 class RemoveNote extends NotesEvent {
   const RemoveNote({required this.note});
   final Note note;
@@ -31,3 +51,23 @@ class RemoveNote extends NotesEvent {
   @override
   List<Object> get props => [note];
 }
+
+class RestoreNote extends NotesEvent {
+  const RestoreNote({required this.note});
+  final Note note;
+
+  @override
+  List<Object> get props => [note];
+}
+
+class RestoreSelectedNotes extends NotesEvent {}
+
+class DeleteNote extends NotesEvent {
+  const DeleteNote({required this.note});
+  final Note note;
+
+  @override
+  List<Object> get props => [note];
+}
+
+class DeleteSelectedNotes extends NotesEvent {}
