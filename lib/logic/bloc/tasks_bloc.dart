@@ -15,7 +15,6 @@ class TasksBloc extends HydratedBloc<TasksEvent, TasksState> {
   void _onAddTask(AddTask event, Emitter<TasksState> emit) {
     final state = this.state;
     List<Task> allTasks = List.from(state.allTasks)..add(event.task);
-    allTasks.sort((task1, task2) => task1.startTime.compareTo(task2.startTime));
 
     emit(TasksState(allTasks: allTasks));
   }

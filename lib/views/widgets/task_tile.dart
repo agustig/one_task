@@ -19,7 +19,9 @@ class TaskTile extends StatelessWidget {
         SizedBox(
           width: 45,
           child: Text(
-            DateFormat('hh:mm a').format(task.startTime),
+            task.startTime.day != DateTime.now().day
+                ? '${DateFormat.MMMMd('id_ID').format(task.startTime)} '
+                : DateFormat('hh:mm a').format(task.startTime),
             style: Theme.of(context).textTheme.bodyText1,
             textAlign: TextAlign.center,
           ),
@@ -65,12 +67,25 @@ class TaskTile extends StatelessWidget {
                           task.detail,
                           style: Theme.of(context).textTheme.bodyText2,
                         ),
-                        const SizedBox(height: 6.0),
-                        Text(
-                          '${DateFormat("hh:mm a").format(task.startTime)} - '
-                          '${DateFormat("hh:mm a").format(task.endTime)}',
-                          style: Theme.of(context).textTheme.bodyText1,
-                        ),
+                        const SizedBox(height: 8.0),
+                        (task.startTime.year == task.endTime.year &&
+                                task.startTime.month == task.endTime.month &&
+                                task.startTime.day == task.endTime.day)
+                            ? Text(
+                                '${DateFormat("hh:mm a").format(task.startTime)} - '
+                                '${DateFormat("hh:mm a").format(task.endTime)}',
+                                style: Theme.of(context).textTheme.bodyText1,
+                              )
+                            : Text(
+                                '${DateFormat.MMMMd('id_ID').format(task.startTime)}, '
+                                '${DateFormat("hh:mm a").format(task.startTime)} to\n'
+                                '${DateFormat.MMMMd('id_ID').format(task.endTime)}, '
+                                '${DateFormat("hh:mm a").format(task.endTime)}',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyText1
+                                    ?.copyWith(fontSize: 13),
+                              ),
                       ],
                     ),
                   ),

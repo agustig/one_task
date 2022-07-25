@@ -17,7 +17,7 @@ class TaskFormScreen extends StatefulWidget {
 class _TaskFormScreenState extends State<TaskFormScreen> {
   final _titleController = TextEditingController();
   final _detailController = TextEditingController();
-  final _dateTime = TaskTime();
+  late Task _newTask;
 
   @override
   Widget build(BuildContext context) {
@@ -42,180 +42,19 @@ class _TaskFormScreenState extends State<TaskFormScreen> {
             minLines: 2,
             maxLines: 3,
           ),
-
-          // Kolom untuk menampilkan tombol pilih tangal,
-          // waktu mulai, dan waktu berakhir pada task
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8),
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        Text(
-                          'Tanggal:',
-                          style: Theme.of(context).textTheme.bodyText1,
-                        ),
-                        const SizedBox(width: 10.0),
-                        Text(
-                          DateFormat.yMMMMEEEEd('id_ID').format(_dateTime.date),
-                        ),
-                      ],
-                    ),
-                    TextButton(
-                      onPressed: () async {
-                        final selectedDate = await showDatePicker(
-                          context: context,
-                          initialDate: _dateTime.date,
-                          firstDate: DateTime.now(),
-                          lastDate: DateTime(DateTime.now().year + 1),
-                        );
-
-                        setState(() {
-                          if (selectedDate != null) {
-                            _dateTime.date = selectedDate;
-                          }
-                        });
-                      },
-                      child: const Text(
-                        'Pilih tanggal',
-                        style: TextStyle(),
-                      ),
-                    )
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        Text(
-                          'Waktu mulai:',
-                          style: Theme.of(context).textTheme.bodyText1,
-                        ),
-                        const SizedBox(width: 10.0),
-                        Text(
-                          _dateTime.startTime.format(context),
-                        ),
-                      ],
-                    ),
-                    TextButton(
-                      onPressed: () async {
-                        final selectedTime = await showTimePicker(
-                          context: context,
-                          initialTime: _dateTime.startTime,
-                        );
-
-                        setState(() {
-                          if (selectedTime != null) {
-                            _dateTime.startTime = selectedTime;
-                          }
-                        });
-                      },
-                      child: const Text(
-                        'Pilih jam',
-                        style: TextStyle(),
-                      ),
-                    )
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        Text(
-                          'Waktu berakhir:',
-                          style: Theme.of(context).textTheme.bodyText1,
-                        ),
-                        const SizedBox(width: 10.0),
-                        isEndTimeValid(_dateTime.startTime, _dateTime.endTime)
-                            ? Text(
-                                _dateTime.endTime.format(context),
-                              )
-                            : Text(
-                                _dateTime.endTime.format(context),
-                                style: const TextStyle(color: Colors.red),
-                              ),
-                      ],
-                    ),
-                    TextButton(
-                      onPressed: () async {
-                        final selectedTime = await showTimePicker(
-                          context: context,
-                          initialTime: _dateTime.endTime,
-                        );
-
-                        setState(() {
-                          if (selectedTime != null) {
-                            _dateTime.endTime = selectedTime;
-                          }
-                        });
-                      },
-                      child: const Text(
-                        'Pilih jam',
-                        style: TextStyle(),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-
-          // Kotak yang akan muncul jika waktu akhir tidak valid
-          SizedBox(
-            child: Text(
-              isEndTimeValid(_dateTime.startTime, _dateTime.endTime)
-                  ? ''
-                  : 'Peringatan: Waktu berakhir harus lebih besar dari waktu mulai!',
-              style: const TextStyle(
-                color: Colors.red,
-                fontSize: 18,
-              ),
-              textAlign: TextAlign.center,
-            ),
-          ),
+          taskDateSelector(context),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               TextButton(
                 onPressed: () {
-                  // Mengecek terlebih dahulu apakah inputan waktu sudah valid
-                  if (isEndTimeValid(_dateTime.startTime, _dateTime.endTime)) {
-                    // Jika valid task akan ditambahkan ke dalam UserTaskManager
-                    // dan kembali ke halaman sebelumnya
-                    final newTask = Task(
-                      title: _titleController.text,
-                      detail: _detailController.text,
-                      startTime: DateTime(
-                        _dateTime.date.year,
-                        _dateTime.date.month,
-                        _dateTime.date.day,
-                        _dateTime.startTime.hour,
-                        _dateTime.startTime.minute,
-                      ),
-                      endTime: DateTime(
-                        _dateTime.date.year,
-                        _dateTime.date.month,
-                        _dateTime.date.day,
-                        _dateTime.endTime.hour,
-                        _dateTime.endTime.minute,
-                      ),
-                    );
+                  _newTask = _newTask.copyWith(
+                    title: _titleController.text,
+                    detail: _detailController.text,
+                  );
 
-                    context.read<TasksBloc>().add(AddTask(task: newTask));
-                    Navigator.pop(context);
-                  } else {
-                    // Jika tidak valid, maka akan muncul SnackBar
-                    // yang berisikan pesan tidak valid
-                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                      content: Text('Inputan anda ada yang salah!'),
-                      duration: Duration(seconds: 2),
-                    ));
-                  }
+                  context.read<TasksBloc>().add(AddTask(task: _newTask));
+                  Navigator.pop(context);
                 },
                 child: const Text('Tambah'),
               ),
@@ -232,18 +71,264 @@ class _TaskFormScreenState extends State<TaskFormScreen> {
     );
   }
 
-  /// Fungsi yang memeriksa apakah waktu berakhir task
-  /// lebih awal dari waktu task dimulai.
-  bool isEndTimeValid(TimeOfDay start, TimeOfDay end) {
-    if (end.hour - start.hour == 0) {
-      if (end.minute - start.minute > 0) {
-        return true;
-      }
-    } else if (end.hour - start.hour > 0) {
-      return true;
-    }
+  Widget taskDateSelector(
+    BuildContext context,
+  ) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: Column(
+        children: [
+          Row(
+            children: [
+              Text(
+                'Mulai: ',
+                style: Theme.of(context).textTheme.bodyText1,
+              ),
+              const SizedBox(width: 10.0),
+              TextButton(
+                onPressed: () async {
+                  final selectedDate = await showDatePicker(
+                    context: context,
+                    initialDate: _newTask.startTime,
+                    firstDate: DateTime.now(),
+                    lastDate: DateTime(
+                      DateTime.now().year + 1,
+                      DateTime.now().month,
+                      DateTime.now().day,
+                    ),
+                  );
 
-    return false;
+                  setState(() {
+                    if (selectedDate != null) {
+                      _newTask = _newTask.copyWith(
+                        startTime: replaceDate(
+                          _newTask.startTime,
+                          selectedDate,
+                        ),
+                      );
+                      taskTimeValidator();
+                    }
+                  });
+                },
+                child: Text(
+                  DateFormat('dd/MM/yyy').format(_newTask.startTime),
+                  style: const TextStyle(color: Colors.black),
+                ),
+              ),
+              TextButton(
+                onPressed: () async {
+                  final selectedTime = await showTimePicker(
+                      context: context,
+                      initialTime: TimeOfDay.fromDateTime(_newTask.startTime),
+                      initialEntryMode: TimePickerEntryMode.input,
+                      builder: (context, child) {
+                        return MediaQuery(
+                          data: MediaQuery.of(context).copyWith(
+                            alwaysUse24HourFormat: true,
+                          ),
+                          child: child!,
+                        );
+                      });
+
+                  setState(() {
+                    if (selectedTime != null) {
+                      _newTask = _newTask.copyWith(
+                        startTime: replaceTime(
+                          _newTask.startTime,
+                          selectedTime,
+                        ),
+                      );
+                      taskTimeValidator();
+                    }
+                  });
+                },
+                child: Text(
+                  DateFormat.Hm().format(_newTask.startTime),
+                  style: const TextStyle(color: Colors.black),
+                ),
+              ),
+            ],
+          ),
+          Row(
+            children: [
+              Text(
+                'Akhir: ',
+                style: Theme.of(context).textTheme.bodyText1,
+              ),
+              const SizedBox(width: 10.0),
+              TextButton(
+                onPressed: () async {
+                  final selectedDate = await showDatePicker(
+                    context: context,
+                    initialDate: _newTask.endTime,
+                    firstDate: (_newTask.endTime.hour < _newTask.startTime.hour)
+                        ? _newTask.endTime
+                        : (_newTask.endTime.hour == _newTask.startTime.hour &&
+                                _newTask.endTime.minute <=
+                                    _newTask.startTime.minute)
+                            ? _newTask.endTime
+                            : _newTask.startTime,
+                    lastDate: DateTime(
+                      DateTime.now().year + 1,
+                      DateTime.now().month,
+                      DateTime.now().day,
+                    ),
+                  );
+
+                  setState(() {
+                    if (selectedDate != null) {
+                      _newTask = _newTask.copyWith(
+                        endTime: replaceDate(
+                          _newTask.endTime,
+                          selectedDate,
+                        ),
+                      );
+                      taskTimeValidator();
+                    }
+                  });
+                },
+                child: Text(
+                  DateFormat('dd/MM/yyy').format(_newTask.endTime),
+                  style: const TextStyle(color: Colors.black),
+                ),
+              ),
+              TextButton(
+                onPressed: () async {
+                  final selectedTime = await showTimePicker(
+                      context: context,
+                      initialTime: TimeOfDay.fromDateTime(_newTask.endTime),
+                      initialEntryMode: TimePickerEntryMode.input,
+                      builder: (context, child) {
+                        return MediaQuery(
+                          data: MediaQuery.of(context).copyWith(
+                            alwaysUse24HourFormat: true,
+                          ),
+                          child: child!,
+                        );
+                      });
+
+                  setState(() {
+                    if (selectedTime != null) {
+                      _newTask = _newTask.copyWith(
+                        endTime: replaceTime(
+                          _newTask.endTime,
+                          selectedTime,
+                        ),
+                      );
+                      taskTimeValidator();
+                    }
+                  });
+                },
+                child: Text(
+                  DateFormat.Hm().format(_newTask.endTime),
+                  style: const TextStyle(color: Colors.black),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  DateTime replaceDate(DateTime oldDate, DateTime newDate) {
+    return DateTime(
+      newDate.year,
+      newDate.month,
+      newDate.day,
+      oldDate.hour,
+      oldDate.minute,
+    );
+  }
+
+  DateTime replaceTime(DateTime oldDate, TimeOfDay newTime) {
+    return DateTime(
+      oldDate.year,
+      oldDate.month,
+      oldDate.day,
+      newTime.hour,
+      newTime.minute,
+    );
+  }
+
+  void taskTimeValidator() {
+    final startYear = _newTask.startTime.year;
+    final startMonth = _newTask.startTime.month;
+    final startDay = _newTask.startTime.day;
+    final startHour = _newTask.startTime.hour;
+    final startMinute = _newTask.startTime.minute;
+
+    final endYear = _newTask.endTime.year;
+    final endMonth = _newTask.endTime.month;
+    final endDay = _newTask.endTime.day;
+    final endHour = _newTask.endTime.hour;
+    final endMinute = _newTask.endTime.minute;
+
+    // Cek validitas tahun
+    if (endYear < startYear) {
+      _newTask = _newTask.copyWith(
+        endTime: DateTime(
+          startYear,
+          startMonth,
+          startDay,
+          endHour,
+          endMinute,
+        ),
+      );
+    } else if (endYear == startYear) {
+      // Cek validitas bulan
+      if (endMonth < startMonth) {
+        _newTask = _newTask.copyWith(
+          endTime: DateTime(
+            endYear,
+            startMonth,
+            startDay,
+            endHour,
+            endMinute,
+          ),
+        );
+      } else if (endMonth == startMonth) {
+        // Cek validitas hari
+        if (endDay < startDay) {
+          _newTask = _newTask.copyWith(
+            endTime: DateTime(
+              endYear,
+              endMonth,
+              startDay,
+              endHour,
+              endMinute,
+            ),
+          );
+        } else if (endDay == startDay) {
+          // Cek validitas jam
+          if (endHour < startHour) {
+            _newTask = _newTask.copyWith(
+                endTime: _newTask.endTime.add(const Duration(days: 1)));
+          } else if (endHour == startHour) {
+            // Cek validitas menit
+            if (endMinute <= startMinute) {
+              _newTask = _newTask.copyWith(
+                endTime: _newTask.endTime.add(const Duration(days: 1)),
+              );
+            }
+          }
+        }
+      }
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    _newTask = Task(
+      title: '',
+      detail: '',
+      startTime: DateTime.now(),
+      endTime: DateTime.now().add(
+        const Duration(hours: 1),
+      ),
+    );
   }
 
   @override
@@ -255,18 +340,4 @@ class _TaskFormScreenState extends State<TaskFormScreen> {
     // Mamanggil fungsi dispose dari parent
     super.dispose();
   }
-}
-
-/// Class TaskTime sebagai referense object dari
-/// waktu task yang digunakan.
-class TaskTime {
-  TaskTime() {
-    date = DateTime.now();
-    startTime = TimeOfDay.now();
-    endTime = TimeOfDay(hour: startTime.hour, minute: startTime.minute + 1);
-  }
-
-  late DateTime date;
-  late TimeOfDay startTime;
-  late TimeOfDay endTime;
 }
