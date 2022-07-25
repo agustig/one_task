@@ -24,3 +24,13 @@ class UpdateTask extends TasksEvent {
   @override
   List<Object> get props => [task];
 }
+
+class EditTask extends TasksEvent {
+  const EditTask({required this.oldTask, required this.newTask});
+
+  final Task oldTask;
+  final Task newTask;
+
+  @override
+  List<Object> get props => [oldTask, newTask];
+}

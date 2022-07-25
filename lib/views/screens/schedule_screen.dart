@@ -3,6 +3,7 @@ import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 import '../../logic/logic.dart';
 import '../../models/task.dart';
+import '../views.dart';
 
 class ScheduleScreen extends StatefulWidget {
   const ScheduleScreen({Key? key}) : super(key: key);
@@ -12,6 +13,14 @@ class ScheduleScreen extends StatefulWidget {
 }
 
 class _ScheduleScreenState extends State<ScheduleScreen> {
+  void onCalendarTapped(CalendarTapDetails details) {
+    if (details.targetElement == CalendarElement.agenda ||
+        details.targetElement == CalendarElement.appointment) {
+      final Task task = details.appointments![0];
+      showFormDialog(context, TaskFormScreen(oldTask: task));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return SliverToBoxAdapter(
@@ -40,6 +49,8 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
               timeSlotViewSettings: const TimeSlotViewSettings(
                 timelineAppointmentHeight: 100,
               ),
+              onTap: onCalendarTapped,
+              onLongPress: (details) {},
             );
           },
         ),
@@ -51,27 +62,30 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
 /// Implementasi dari list [Task] ke [SfCalendar]
 /// melalui [CalendarDataSource]
 class TaskDataSource extends CalendarDataSource {
-  TaskDataSource(List<Task> tasks) {
-    appointments = tasks;
-  }
+  TaskDataSource(this.tasks);
+
+  final List<Task> tasks;
+
+  @override
+  List<dynamic> get appointments => tasks;
 
   @override
   DateTime getStartTime(int index) {
-    return appointments![index].startTime;
+    return tasks[index].startTime;
   }
 
   @override
   DateTime getEndTime(int index) {
-    return appointments![index].endTime;
+    return tasks[index].endTime;
   }
 
   @override
   String getSubject(int index) {
-    return appointments![index].title;
+    return tasks[index].title;
   }
 
   @override
   Color getColor(int index) {
-    return appointments![index].background;
+    return tasks[index].background;
   }
 }

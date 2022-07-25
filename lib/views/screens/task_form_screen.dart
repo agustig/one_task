@@ -8,7 +8,10 @@ import '../views.dart';
 class TaskFormScreen extends StatefulWidget {
   const TaskFormScreen({
     Key? key,
+    this.oldTask,
   }) : super(key: key);
+
+  final Task? oldTask;
 
   @override
   State<TaskFormScreen> createState() => _TaskFormScreenState();
@@ -21,12 +24,13 @@ class _TaskFormScreenState extends State<TaskFormScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final oldTask = widget.oldTask;
     return Padding(
       padding: const EdgeInsets.all(20),
       child: Column(
         children: [
           Text(
-            'Tambah task baru',
+            oldTask != null ? 'Ubah task' : 'Tambah task baru',
             style: Theme.of(context).textTheme.headline2,
           ),
           const SizedBox(height: 10),
@@ -53,10 +57,18 @@ class _TaskFormScreenState extends State<TaskFormScreen> {
                     detail: _detailController.text,
                   );
 
-                  context.read<TasksBloc>().add(AddTask(task: _newTask));
+                  if (oldTask != null) {
+                    context.read<TasksBloc>().add(EditTask(
+                          oldTask: oldTask,
+                          newTask: _newTask,
+                        ));
+                  } else {
+                    context.read<TasksBloc>().add(AddTask(task: _newTask));
+                  }
+
                   Navigator.pop(context);
                 },
-                child: const Text('Tambah'),
+                child: Text(oldTask != null ? 'Edit' : 'Tambah'),
               ),
               TextButton(
                 onPressed: () {
@@ -71,9 +83,7 @@ class _TaskFormScreenState extends State<TaskFormScreen> {
     );
   }
 
-  Widget taskDateSelector(
-    BuildContext context,
-  ) {
+  Widget taskDateSelector(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: Column(
@@ -320,15 +330,21 @@ class _TaskFormScreenState extends State<TaskFormScreen> {
   @override
   void initState() {
     super.initState();
-
-    _newTask = Task(
-      title: '',
-      detail: '',
-      startTime: DateTime.now(),
-      endTime: DateTime.now().add(
-        const Duration(hours: 1),
-      ),
-    );
+    final oldTask = widget.oldTask;
+    if (oldTask != null) {
+      _newTask = oldTask;
+      _titleController.text = _newTask.title;
+      _detailController.text = _newTask.detail;
+    } else {
+      _newTask = Task(
+        title: '',
+        detail: '',
+        startTime: DateTime.now(),
+        endTime: DateTime.now().add(
+          const Duration(hours: 1),
+        ),
+      );
+    }
   }
 
   @override

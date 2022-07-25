@@ -38,10 +38,15 @@ class TaskTile extends StatelessWidget {
                 onPressed: () {
                   context.read<TasksBloc>().add(UpdateTask(task: task));
                 },
-                icon: Icon(
-                  Icons.check_circle_outline_outlined,
-                  color: task.isDone ? Colors.green : Colors.grey,
-                ),
+                icon: task.isDone
+                    ? const Icon(
+                        Icons.check_circle_rounded,
+                        color: Colors.green,
+                      )
+                    : const Icon(
+                        Icons.check_circle_outline_outlined,
+                        color: Colors.grey,
+                      ),
               ),
               const Expanded(
                 child: Divider(
