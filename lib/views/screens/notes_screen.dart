@@ -13,6 +13,17 @@ class NotesScreen extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       sliver: BlocBuilder<NotesBloc, NotesState>(
         builder: (context, state) {
+          // Menampilkan pesan [EmptyItem] jika notes kosong
+          if (state.notes.isEmpty) {
+            return const SliverToBoxAdapter(
+              child: EmptyItem(
+                title: 'Tidak ada catatan',
+                subTitle: 'Tekan tombol Tambah untuk membuat catatan.',
+                negativeHeight: 100,
+              ),
+            );
+          }
+
           return SliverGrid(
             delegate: SliverChildListDelegate.fixed(
               state.notes.map((note) {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../logic/logic.dart';
-import '../widgets/task_tile.dart';
+import '../widgets/widgets.dart';
 
 /// Menampilkan task yang berlangsung hari ini
 class TodayTasksScreen extends StatelessWidget {
@@ -12,6 +12,16 @@ class TodayTasksScreen extends StatelessWidget {
     return SliverToBoxAdapter(
       child: BlocBuilder<TasksBloc, TasksState>(
         builder: (context, state) {
+          // Menampilkan pesan [EmptyItem] jika todayTasks kosong
+          if (state.todayTasks.isEmpty) {
+            return const EmptyItem(
+              title: 'Tidak ada task',
+              subTitle:
+                  'Tekan tombol Tambah di laman Skejul untuk membuat task.',
+              negativeHeight: 240,
+            );
+          }
+          
           return Padding(
             padding: const EdgeInsets.only(top: 16.0, left: 16),
             child: Column(

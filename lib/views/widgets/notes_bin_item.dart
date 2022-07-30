@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../logic/logic.dart';
 import '../../models/note.dart';
+import 'widgets.dart';
 
 /// Widget untuk menampilan note yang telah dihapus
 class NotesBinItem extends StatelessWidget {
@@ -17,6 +18,14 @@ class NotesBinItem extends StatelessWidget {
       selectedNote.contains(note)
           ? notesBloc.add(UnselectNote(note: note))
           : notesBloc.add(SelectNote(note: note));
+    }
+
+    // Menampilkan pesan [EmptyItem] jika removedNotes kosong
+    if (removedNotes.isEmpty) {
+      return const EmptyItem(
+        title: 'Tidak ada task',
+        subTitle: 'Tekan tombol Tambah untuk membuat task.',
+      );
     }
 
     return ListView.builder(

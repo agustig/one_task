@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../logic/logic.dart';
 import '../../models/task.dart';
+import 'widgets.dart';
 
 /// Widget untuk menampilan task yang telah dihapus
 class TasksBinItem extends StatelessWidget {
@@ -29,10 +30,19 @@ class TasksBinItem extends StatelessWidget {
       }
     }
 
+    // Menampilkan pesan [EmptyItem] jika removedTasks kosong
+    if (removedTasks.isEmpty) {
+      return const EmptyItem(
+        title: 'Tidak ada task',
+        subTitle: 'Tekan tombol Tambah untuk membuat task.',
+      );
+    }
+
     return ListView.builder(
       itemCount: removedTasks.length,
       itemBuilder: (context, index) {
         final task = removedTasks[index];
+
         return Card(
           child: ListTile(
             title: Text(task.title),
