@@ -11,6 +11,7 @@ class Task extends Equatable {
     required this.startTime,
     required this.endTime,
     this.isDone = false,
+    this.isRemoved = false,
     Color? background,
   }) : _background = (background ?? ColorGen.generate()) ?? Colors.white;
 
@@ -29,6 +30,8 @@ class Task extends Equatable {
   /// Informasi apakah task sudah dikejakan
   final bool isDone;
 
+  final bool isRemoved;
+
   /// Warna backgroud dari task
   final Color _background;
 
@@ -40,6 +43,7 @@ class Task extends Equatable {
     DateTime? startTime,
     DateTime? endTime,
     bool? isDone,
+    bool? isRemoved,
   }) {
     return Task(
       title: title ?? this.title,
@@ -47,6 +51,7 @@ class Task extends Equatable {
       startTime: startTime ?? this.startTime,
       endTime: endTime ?? this.endTime,
       isDone: isDone ?? this.isDone,
+      isRemoved: isRemoved ?? this.isRemoved,
       background: background,
     );
   }
@@ -58,17 +63,18 @@ class Task extends Equatable {
         startTime,
         endTime,
         isDone,
+        isRemoved,
         _background,
       ];
 
   factory Task.fromJson(Map<String, dynamic> json) {
     return Task(
-      title: json['title'],
-      detail: json['detail'],
-      startTime: DateTime.parse(json['start_time']),
-      endTime: DateTime.parse(json['end_time']),
-      isDone: json['is_done'],
-    );
+        title: json['title'],
+        detail: json['detail'],
+        startTime: DateTime.parse(json['start_time']),
+        endTime: DateTime.parse(json['end_time']),
+        isDone: json['is_done'],
+        isRemoved: json['is_removed']);
   }
 
   Map<String, dynamic> toJson() {
@@ -78,6 +84,7 @@ class Task extends Equatable {
       'start_time': startTime.toString(),
       'end_time': endTime.toString(),
       'is_done': isDone,
+      'is_removed': isRemoved,
     };
   }
 }

@@ -11,7 +11,8 @@ class ProfileDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final userState = context.watch<UserCubit>().state.user;
-    final notesState = context.watch<NotesBloc>().state;
+    final removedNotes = context.watch<NotesBloc>().state.removedNotes;
+    final removedTasks = context.watch<TasksBloc>().state.removedTasks;
 
     return SafeArea(
       child: Drawer(
@@ -52,7 +53,8 @@ class ProfileDrawer extends StatelessWidget {
                     leading: const Icon(Icons.folder_delete_outlined),
                     title: const Text('Kotak Sampah'),
                     trailing: Text(
-                      '${notesState.notes.length}/${notesState.removedNotes.length}',
+                      '${removedNotes.length} note\n${removedTasks.length} task',
+                      style: const TextStyle(fontSize: 12),
                     ),
                     onTap: () {
                       Navigator.pop(context);

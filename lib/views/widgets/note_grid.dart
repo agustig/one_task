@@ -29,43 +29,12 @@ class NoteGrid extends StatelessWidget {
               // Ketika note dipendam(onLongPress), akan muncul peringatan
               // hapus note yang bersangkutan.
               onLongPress: () {
-                showDialog(
-                  context: context,
-                  builder: (context) {
-                    return AlertDialog(
-                      title: const Text('Hapus catatan'),
-                      content: const Text(
-                        'Apakah anda yakin untuk menghapus catatan ini?',
-                      ),
-                      actions: [
-                        TextButton(
-                          onPressed: () {
-                            if (note.isRemoved) {
-                              context.read<NotesBloc>().add(
-                                    DeleteNote(note: note),
-                                  );
-                            } else {
-                              context.read<NotesBloc>().add(
-                                    RemoveNote(note: note),
-                                  );
-                            }
-
-                            Navigator.pop(context);
-                          },
-                          child: Text(
-                            note.isRemoved ? 'Hapus Selamanya' : 'Hapus',
-                          ),
-                        ),
-                        TextButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          child: const Text('Batal'),
-                        ),
-                      ],
-                    );
-                  },
-                );
+                showDeleteDialog(
+                    context: context,
+                    type: DeleteType.remove,
+                    onSubmit: () {
+                      context.read<NotesBloc>().add(RemoveNote(note: note));
+                    });
               },
               child: Card(
                 color: note.background,

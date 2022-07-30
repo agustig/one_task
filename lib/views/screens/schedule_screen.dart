@@ -21,6 +21,19 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
     }
   }
 
+  void onCalendarLongPressed(CalendarLongPressDetails details) {
+    if (details.targetElement == CalendarElement.agenda ||
+        details.targetElement == CalendarElement.appointment) {
+      final Task task = details.appointments![0];
+      showDeleteDialog(
+          context: context,
+          type: DeleteType.remove,
+          onSubmit: () {
+            context.read<TasksBloc>().add(RemoveTask(task: task));
+          });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return SliverToBoxAdapter(
@@ -50,7 +63,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                 timelineAppointmentHeight: 100,
               ),
               onTap: onCalendarTapped,
-              onLongPress: (details) {},
+              onLongPress: onCalendarLongPressed,
             );
           },
         ),

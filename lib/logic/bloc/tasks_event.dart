@@ -34,3 +34,38 @@ class EditTask extends TasksEvent {
   @override
   List<Object> get props => [oldTask, newTask];
 }
+
+class SelectTask extends TasksEvent {
+  const SelectTask({required this.task});
+
+  final Task task;
+
+  @override
+  List<Object> get props => [task];
+}
+
+class UnselectTask extends TasksEvent {
+  const UnselectTask({required this.task});
+
+  final Task task;
+
+  @override
+  List<Object> get props => [task];
+}
+
+class SelectAllTasks extends TasksEvent {}
+
+class UnselectAllTasks extends TasksEvent {}
+
+class RemoveTask extends TasksEvent {
+  const RemoveTask({required this.task});
+
+  final Task task;
+
+  @override
+  List<Object> get props => [task];
+}
+
+class RestoreSelectedTasks extends TasksEvent {}
+
+class DeleteSelectedTasks extends TasksEvent {}
