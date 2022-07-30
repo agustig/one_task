@@ -3,28 +3,29 @@ import 'package:flutter/material.dart';
 import '../../logic/logic.dart';
 import '../widgets/widgets.dart';
 
+/// Tampilan layar untuk kotak sampah
 class BinScreen extends StatelessWidget {
   const BinScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    // Mengambil bloc dari note
     final notesBloc = context.watch<NotesBloc>();
     final removedNotes = notesBloc.state.removedNotes;
     final selectedNote = notesBloc.state.selectedNotes;
 
+    // Mengambil bloc dari task
     final tasksBloc = context.watch<TasksBloc>();
     final removedTasks = tasksBloc.state.removedTasks;
     final selectedTasks = tasksBloc.state.selectedTasks;
 
+    // Leading AppBar yang terkondisi ketika ada item yang diseleksi
     Widget? appBarLeading() {
-      if (selectedNote.isNotEmpty) {
+      if (selectedNote.isNotEmpty || selectedTasks.isNotEmpty) {
         return IconButton(
-          onPressed: () => notesBloc.add(UnselectAllNotes()),
-          icon: const Icon(Icons.arrow_back_sharp),
-        );
-      } else if (selectedTasks.isNotEmpty) {
-        return IconButton(
-          onPressed: () => tasksBloc.add(UnselectAllTasks()),
+          onPressed: () => selectedNote.isNotEmpty
+              ? notesBloc.add(UnselectAllNotes())
+              : tasksBloc.add(UnselectAllTasks()),
           icon: const Icon(Icons.arrow_back_sharp),
         );
       } else {
@@ -32,6 +33,7 @@ class BinScreen extends StatelessWidget {
       }
     }
 
+    // Title AppBar yang terkondisi ketika ada item yang diseleksi
     Widget appBarTitle() {
       final titleString = selectedNote.isNotEmpty
           ? '${selectedNote.length}/${removedNotes.length} selected'
@@ -41,6 +43,7 @@ class BinScreen extends StatelessWidget {
       return Text(titleString);
     }
 
+    // Action AppBar yang terkondisi ketika ada item yang diseleksi
     List<Widget>? appBarActions() {
       if (selectedNote.isNotEmpty || selectedTasks.isNotEmpty) {
         return [
@@ -82,6 +85,7 @@ class BinScreen extends StatelessWidget {
       }
     }
 
+    // List tab yang akan digunakan untuk keperluan TabBar
     List<Tab> tabs = const [
       Tab(
         text: 'Task',
@@ -95,6 +99,8 @@ class BinScreen extends StatelessWidget {
       length: tabs.length,
       child: Builder(builder: (context) {
         final TabController tabController = DefaultTabController.of(context)!;
+
+        // Mendeteksi perubahan halaman tab
         tabController.addListener(
           () {
             if (tabController.indexIsChanging ||
@@ -104,6 +110,7 @@ class BinScreen extends StatelessWidget {
             }
           },
         );
+
         return Scaffold(
           appBar: AppBar(
             leading: appBarLeading(),

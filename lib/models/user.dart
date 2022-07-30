@@ -17,6 +17,7 @@ class User extends Equatable {
     );
   }
 
+  /// Membuat duplikasi pengguna dengan perubahan parameter isian
   User copyWith({String? name, String? image}) {
     return User(
       name: name ?? this.name,
@@ -24,6 +25,7 @@ class User extends Equatable {
     );
   }
 
+  /// Import data pengguna dari bentuk Json atau Map
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
       name: json['name'],
@@ -31,6 +33,7 @@ class User extends Equatable {
     );
   }
 
+  /// Export data pengguna ke dalam bentuk Json atau Map
   Map<String, dynamic> toJson() {
     return {
       'name': name,

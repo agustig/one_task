@@ -1,7 +1,9 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 
+/// Generate warna secara acak
 class ColorGen {
+  /// Generate warna
   static Color? generate() {
     final random = Random();
 

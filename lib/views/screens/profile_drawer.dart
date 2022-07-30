@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../logic/logic.dart';
 import 'bin_screen.dart';
 
+/// Drawer navigasi aplikasi
 class ProfileDrawer extends StatelessWidget {
   const ProfileDrawer({
     Key? key,
@@ -10,6 +11,7 @@ class ProfileDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Mengambil state dari BLoC
     final userState = context.watch<UserCubit>().state.user;
     final removedNotes = context.watch<NotesBloc>().state.removedNotes;
     final removedTasks = context.watch<TasksBloc>().state.removedTasks;
@@ -47,7 +49,9 @@ class ProfileDrawer extends StatelessWidget {
                   ListTile(
                     leading: const Icon(Icons.edit),
                     title: const Text('Edit Profil'),
-                    onTap: () {},
+                    onTap: () {
+                      // TODO: Tambah fungsi edit profil
+                    },
                   ),
                   ListTile(
                     leading: const Icon(Icons.folder_delete_outlined),
@@ -69,7 +73,9 @@ class ProfileDrawer extends StatelessWidget {
                   ListTile(
                     leading: const Icon(Icons.logout),
                     title: const Text('Keluar'),
-                    onTap: () {},
+                    onTap: () {
+                      // TODO: Tambah fungsi keluar/logout
+                    },
                   ),
                 ],
               ),

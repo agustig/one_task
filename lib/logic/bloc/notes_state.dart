@@ -1,16 +1,23 @@
 part of 'notes_bloc.dart';
 
+/// Data state yang di-manage oleh [NotesBloc], memiliki properti:
+/// * [notes]
+/// * [removedNotes]
+/// * [selectedNotes]
 class NotesState extends Equatable {
   NotesState({
     List<Note> notes = const <Note>[],
     List<Note> removedNotes = const <Note>[],
     this.selectedNotes = const <Note>[],
-  })  : _notes = List.from(notes)
+  })  :
+        // Mengurutkan note berdasarkan tanggal terakhir diubah
+        _notes = List.from(notes)
           ..sort(
             (note1, note2) {
               return note2.modifiedDate.compareTo(note1.modifiedDate);
             },
           ),
+        // Mengurutkan removedNote berdasarkan tanggal terakhir diubah
         _removedNotes = List.from(removedNotes)
           ..sort(
             (removedNote1, removedNote2) {
@@ -20,13 +27,19 @@ class NotesState extends Equatable {
           );
 
   final List<Note> _notes;
+
+  /// List note utama
   List<Note> get notes => _notes;
 
   final List<Note> _removedNotes;
+
+  /// List note yang berada di kotak sampah
   List<Note> get removedNotes => _removedNotes;
 
+  /// Wadah List note yang digunakan untuk menyeleksi note
   final List<Note> selectedNotes;
 
+  /// Import [NotesState] dari Json atau Map
   factory NotesState.fromJson(Map<String, dynamic> json) {
     return NotesState(
       notes: List.from(
@@ -42,6 +55,7 @@ class NotesState extends Equatable {
     );
   }
 
+  /// Export [NotesState] ke dalam bentuk Json atau Map
   Map<String, dynamic> toJson() {
     return {
       'notes': _notes.map((note) => note.toJson()).toList(),

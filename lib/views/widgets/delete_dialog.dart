@@ -1,7 +1,18 @@
 import 'package:flutter/material.dart';
 
-enum DeleteType { remove, delete }
+/// Tipe penghapusan yang dipilih, terdapat dua opsi
+/// * [remove]
+/// * [delete]
+enum DeleteType {
+  /// Memindahkan ke kotak sampah
+  remove,
 
+  /// Menghapus selamanya/permanent
+  delete,
+}
+
+/// Menampilkan dialog yang berisikan peringatan penghapusan
+/// task atau note
 void showDeleteDialog({
   required BuildContext context,
   required DeleteType type,

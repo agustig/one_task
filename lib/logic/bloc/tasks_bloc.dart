@@ -6,6 +6,7 @@ import '../../models/task.dart';
 part 'tasks_event.dart';
 part 'tasks_state.dart';
 
+/// BLoC untuk me-manage [Task]
 class TasksBloc extends HydratedBloc<TasksEvent, TasksState> {
   TasksBloc() : super(TasksState()) {
     on<AddTask>(_onAddTask);
@@ -20,6 +21,7 @@ class TasksBloc extends HydratedBloc<TasksEvent, TasksState> {
     on<DeleteSelectedTasks>(_onDeleteSelectedTasks);
   }
 
+  /// Memproses event [AddTask]: Menambahkan task baru
   void _onAddTask(AddTask event, Emitter<TasksState> emit) {
     final state = this.state;
     List<Task> allTasks = List.from(state.allTasks)..add(event.task);
@@ -27,11 +29,13 @@ class TasksBloc extends HydratedBloc<TasksEvent, TasksState> {
     emit(TasksState(allTasks: allTasks, removedTasks: state.removedTasks));
   }
 
+  /// Memproses event [UpdateTask]
   void _onUpdateTask(UpdateTask event, Emitter<TasksState> emit) {
     final task = event.task;
     var allTasks = state.allTasks;
     final taskIndex = allTasks.indexOf(task);
 
+    // Mengecek apakah task sudah selesai atau done
     if (!task.isDone) {
       allTasks = List.from(allTasks)
         ..remove(task)
@@ -45,6 +49,7 @@ class TasksBloc extends HydratedBloc<TasksEvent, TasksState> {
     emit(TasksState(allTasks: allTasks, removedTasks: state.allTasks));
   }
 
+  /// Memproses event [EditTask]
   void _onEditTask(EditTask event, Emitter<TasksState> emit) {
     final oldTask = event.oldTask;
     final newTask = event.newTask;
@@ -60,6 +65,7 @@ class TasksBloc extends HydratedBloc<TasksEvent, TasksState> {
     );
   }
 
+  /// Memproses event [SelectTask]
   void _onSelectTask(SelectTask event, Emitter<TasksState> emit) {
     emit(
       TasksState(
@@ -70,6 +76,7 @@ class TasksBloc extends HydratedBloc<TasksEvent, TasksState> {
     );
   }
 
+  /// Memproses event [UnselectTask]
   void _onUnselectTask(UnselectTask event, Emitter<TasksState> emit) {
     emit(
       TasksState(
@@ -80,6 +87,7 @@ class TasksBloc extends HydratedBloc<TasksEvent, TasksState> {
     );
   }
 
+  /// Memproses event [SelectAllTasks]
   void _onSelectAllTasks(SelectAllTasks event, Emitter<TasksState> emit) {
     final allTasks = state.allTasks;
     final removedTasks = state.removedTasks;
@@ -98,6 +106,7 @@ class TasksBloc extends HydratedBloc<TasksEvent, TasksState> {
     ));
   }
 
+  /// Memproses event [UnselectAllTasks]
   void _onUnselectAllTasks(UnselectAllTasks event, Emitter<TasksState> emit) {
     emit(TasksState(
       allTasks: state.allTasks,
@@ -105,6 +114,7 @@ class TasksBloc extends HydratedBloc<TasksEvent, TasksState> {
     ));
   }
 
+  /// Memproses event [RemoveTask]
   void _onRemoveTask(RemoveTask event, Emitter<TasksState> emit) {
     final task = event.task;
     emit(
@@ -116,6 +126,7 @@ class TasksBloc extends HydratedBloc<TasksEvent, TasksState> {
     );
   }
 
+  /// Memproses event [RestoreSelectedTasks]
   void _onRestoreSelectedTasks(
     RestoreSelectedTasks event,
     Emitter<TasksState> emit,
@@ -135,6 +146,7 @@ class TasksBloc extends HydratedBloc<TasksEvent, TasksState> {
     ));
   }
 
+  /// Memproses event [DeleteSelectedTasks]
   void _onDeleteSelectedTasks(
       DeleteSelectedTasks event, Emitter<TasksState> emit) {
     final allTasks = state.allTasks;

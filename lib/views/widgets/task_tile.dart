@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import '../../models/task.dart';
 import '../../logic/logic.dart';
 
+/// Meampilan Task dalam bentuk ListTile
 class TaskTile extends StatelessWidget {
   const TaskTile({
     Key? key,

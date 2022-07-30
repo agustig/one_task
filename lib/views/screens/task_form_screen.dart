@@ -5,6 +5,9 @@ import '../../logic/logic.dart';
 import '../../models/task.dart';
 import '../views.dart';
 
+/// Laman form untuk menambahkan atau mengedit task.
+///
+/// Isikan parameter [oldTask] untuk mengedit.
 class TaskFormScreen extends StatefulWidget {
   const TaskFormScreen({
     Key? key,
@@ -171,13 +174,17 @@ class _TaskFormScreenState extends State<TaskFormScreen> {
                   final selectedDate = await showDatePicker(
                     context: context,
                     initialDate: _newTask.endTime,
-                    firstDate: (_newTask.endTime.hour < _newTask.startTime.hour)
-                        ? _newTask.endTime
-                        : (_newTask.endTime.hour == _newTask.startTime.hour &&
-                                _newTask.endTime.minute <=
-                                    _newTask.startTime.minute)
+                    firstDate:
+                        // Mengecek dan memastikan waktu akhir task harus
+                        // sehabis waktu mulai
+                        (_newTask.endTime.hour < _newTask.startTime.hour)
                             ? _newTask.endTime
-                            : _newTask.startTime,
+                            : (_newTask.endTime.hour ==
+                                        _newTask.startTime.hour &&
+                                    _newTask.endTime.minute <=
+                                        _newTask.startTime.minute)
+                                ? _newTask.endTime
+                                : _newTask.startTime,
                     lastDate: DateTime(
                       DateTime.now().year + 1,
                       DateTime.now().month,
@@ -241,6 +248,7 @@ class _TaskFormScreenState extends State<TaskFormScreen> {
     );
   }
 
+  /// Pengubah detail tanggal
   DateTime replaceDate(DateTime oldDate, DateTime newDate) {
     return DateTime(
       newDate.year,
@@ -251,6 +259,7 @@ class _TaskFormScreenState extends State<TaskFormScreen> {
     );
   }
 
+  /// Pengubah detail jam
   DateTime replaceTime(DateTime oldDate, TimeOfDay newTime) {
     return DateTime(
       oldDate.year,
@@ -261,6 +270,7 @@ class _TaskFormScreenState extends State<TaskFormScreen> {
     );
   }
 
+  /// Memeriksa dan memvalidasi waktu task
   void taskTimeValidator() {
     final startYear = _newTask.startTime.year;
     final startMonth = _newTask.startTime.month;
@@ -331,6 +341,8 @@ class _TaskFormScreenState extends State<TaskFormScreen> {
   void initState() {
     super.initState();
     final oldTask = widget.oldTask;
+
+    // Mengisi data task lama jika oldTask tidak kosong
     if (oldTask != null) {
       _newTask = oldTask;
       _titleController.text = _newTask.title;

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../logic/logic.dart';
 import '../../models/note.dart';
 
+/// Widget untuk menampilan note yang telah dihapus
 class NotesBinItem extends StatelessWidget {
   const NotesBinItem({Key? key}) : super(key: key);
 

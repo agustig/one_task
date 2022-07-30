@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../logic/logic.dart';
 import '../views.dart';
 
+/// Hamalan utama aplikasi
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
@@ -23,6 +24,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // List data judul halaman
     final titles = [
       const Text(
         'Skedul',
@@ -39,6 +41,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     ];
 
+    // List data sub judul halaman
     final subTitle = [
       const Text(''),
       Text('Ada ${context.watch<TasksBloc>().state.todayTasks.length} '
@@ -46,6 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
       Text('${context.watch<NotesBloc>().state.notes.length} catatan'),
     ];
 
+    // List FloatingActionButton yang digunakan di masing-masing halaman
     final floatingActionButtons = [
       FloatingActionButton(
         onPressed: () {
@@ -101,8 +105,10 @@ class _HomeScreenState extends State<HomeScreen> {
             collapsedHeight: (currentPage == 2) ? null : 150,
             flexibleSpace: FlexibleSpaceBar(
               centerTitle: currentPage == 2,
-              titlePadding:
-                  const EdgeInsets.symmetric(horizontal: 16, vertical: 26),
+              titlePadding: const EdgeInsets.symmetric(
+                horizontal: 16,
+                vertical: 26,
+              ),
               title: titles[currentPage],
               background: Padding(
                 padding: const EdgeInsets.only(left: 16.0, bottom: 10),
@@ -111,9 +117,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   crossAxisAlignment: currentPage == 2
                       ? CrossAxisAlignment.center
                       : CrossAxisAlignment.start,
-                  children: [
-                    subTitle[currentPage],
-                  ],
+                  children: [subTitle[currentPage]],
                 ),
               ),
             ),

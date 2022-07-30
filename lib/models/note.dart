@@ -23,6 +23,7 @@ class Note extends Equatable {
   // Id unik
   final String _id;
 
+  /// Getter untuk id note
   String get id => _id;
 
   /// Judul note
@@ -52,6 +53,7 @@ class Note extends Equatable {
   /// Getter untuk mengambil info warna latar belakang
   Color get background => _background;
 
+  /// Membuat duplikasi note dengan perubahan parameter isian
   Note copyWith({
     String? id,
     String? title,
@@ -72,6 +74,7 @@ class Note extends Equatable {
     );
   }
 
+  /// Import note dari bentuk Json atau Map
   factory Note.fromJson(Map<String, dynamic> json) {
     return Note(
       id: json['id'],
@@ -83,6 +86,7 @@ class Note extends Equatable {
     );
   }
 
+  /// Export note ke dalam bentuk Json atau Map
   Map<String, dynamic> toJson() {
     return {
       'id': id,
@@ -95,6 +99,12 @@ class Note extends Equatable {
   }
 
   @override
-  List<Object?> get props =>
-      [id, title, noteBody, _createDate, _modifiedDate, isRemoved];
+  List<Object?> get props => [
+        id,
+        title,
+        noteBody,
+        _createDate,
+        _modifiedDate,
+        isRemoved,
+      ];
 }

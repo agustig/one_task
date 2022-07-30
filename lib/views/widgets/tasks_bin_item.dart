@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../logic/logic.dart';
 import '../../models/task.dart';
 
+/// Widget untuk menampilan task yang telah dihapus
 class TasksBinItem extends StatelessWidget {
   const TasksBinItem({Key? key}) : super(key: key);
 

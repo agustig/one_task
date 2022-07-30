@@ -30,13 +30,16 @@ class Task extends Equatable {
   /// Informasi apakah task sudah dikejakan
   final bool isDone;
 
+  /// Informasi apakah task dihapus
   final bool isRemoved;
 
-  /// Warna backgroud dari task
+  // Warna backgroud dari task
   final Color _background;
 
+  /// Getter latar belakang
   Color get background => _background;
 
+  /// Membuat duplikasi task dengan perubahan parameter isian
   Task copyWith({
     String? title,
     String? detail,
@@ -56,17 +59,7 @@ class Task extends Equatable {
     );
   }
 
-  @override
-  List<Object?> get props => [
-        title,
-        detail,
-        startTime,
-        endTime,
-        isDone,
-        isRemoved,
-        _background,
-      ];
-
+  /// Import task dari bentuk Json atau Map
   factory Task.fromJson(Map<String, dynamic> json) {
     return Task(
         title: json['title'],
@@ -77,6 +70,7 @@ class Task extends Equatable {
         isRemoved: json['is_removed']);
   }
 
+  /// Export task ke dalam bentuk Json atau Map
   Map<String, dynamic> toJson() {
     return {
       'title': title,
@@ -87,4 +81,15 @@ class Task extends Equatable {
       'is_removed': isRemoved,
     };
   }
+
+  @override
+  List<Object?> get props => [
+        title,
+        detail,
+        startTime,
+        endTime,
+        isDone,
+        isRemoved,
+        _background,
+      ];
 }

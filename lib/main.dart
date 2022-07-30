@@ -10,6 +10,7 @@ import 'views/views.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
+  // Menginisialisasi penyimpanan untuk menyimpan bloc state
   final storage = await HydratedStorage.build(
     storageDirectory: await getApplicationDocumentsDirectory(),
   );
@@ -29,7 +30,7 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(create: (context) => TasksBloc()),
         BlocProvider(create: (context) => UserCubit()),
-        BlocProvider(create:  (context) => NotesBloc()),
+        BlocProvider(create: (context) => NotesBloc()),
       ],
       child: MaterialApp(
         title: '1Task',

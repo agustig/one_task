@@ -5,6 +5,7 @@ import '../../models/user.dart';
 
 part 'user_state.dart';
 
+/// Cubit untuk me-manage [User]
 class UserCubit extends HydratedCubit<UserState> {
   UserCubit() : super(UserState());
 

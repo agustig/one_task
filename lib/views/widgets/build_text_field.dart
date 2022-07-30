@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+/// Kotak isian yang digunakan untuk menginput Text/String
 class BuildTextField extends StatelessWidget {
   const BuildTextField({
     Key? key,

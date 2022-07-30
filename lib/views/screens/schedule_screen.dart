@@ -5,6 +5,8 @@ import '../../logic/logic.dart';
 import '../../models/task.dart';
 import '../views.dart';
 
+/// Tampilan Jadwal task dalam bentuk kalender
+/// menggunakan [SfCalendar]
 class ScheduleScreen extends StatefulWidget {
   const ScheduleScreen({Key? key}) : super(key: key);
 
@@ -13,6 +15,7 @@ class ScheduleScreen extends StatefulWidget {
 }
 
 class _ScheduleScreenState extends State<ScheduleScreen> {
+  /// Mengarahkan ke Edit task ketike item di-klik
   void onCalendarTapped(CalendarTapDetails details) {
     if (details.targetElement == CalendarElement.agenda ||
         details.targetElement == CalendarElement.appointment) {
@@ -21,16 +24,18 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
     }
   }
 
+  /// Menampilkan fitur remove ketika item di-hold
   void onCalendarLongPressed(CalendarLongPressDetails details) {
     if (details.targetElement == CalendarElement.agenda ||
         details.targetElement == CalendarElement.appointment) {
       final Task task = details.appointments![0];
       showDeleteDialog(
-          context: context,
-          type: DeleteType.remove,
-          onSubmit: () {
-            context.read<TasksBloc>().add(RemoveTask(task: task));
-          });
+        context: context,
+        type: DeleteType.remove,
+        onSubmit: () {
+          context.read<TasksBloc>().add(RemoveTask(task: task));
+        },
+      );
     }
   }
 

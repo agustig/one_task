@@ -5,6 +5,7 @@ import '../../logic/logic.dart';
 import '../../models/note.dart';
 import '../views.dart';
 
+/// Widget yang menampilakan note dalam bentuk kartu
 class NoteGrid extends StatelessWidget {
   const NoteGrid({Key? key, required this.note}) : super(key: key);
 
