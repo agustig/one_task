@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 /// Generate warna secara acak
 class ColorGen {
   /// Generate warna
-  static Color? generate() {
+  static Color? generate([bool isDark = false]) {
     final random = Random();
 
     return Colors.primaries[random.nextInt(Colors.primaries.length)]
-        [(random.nextInt(5) * 100) + 100];
+        [(random.nextInt(4) * 100) + (isDark ? 600 : 100)];
   }
 }

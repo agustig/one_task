@@ -1,24 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:syncfusion_localizations/syncfusion_localizations.dart';
 
 import 'logic/logic.dart';
+import 'services/services.dart';
 import 'theme.dart';
 import 'views/views.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Menginisialisasi penyimpanan untuk menyimpan bloc state
-  final storage = await HydratedStorage.build(
-    storageDirectory: await getApplicationDocumentsDirectory(),
-  );
+  // Meng-inisialisi service yang dibutuhkan, lalu menjalankan aplikasi
+  initialize().whenComplete(() async {
+    // Menginisialisasi penyimpanan untuk menyimpan bloc state
+    final storage = await HydratedStorage.build(
+      storageDirectory: documentDirectory,
+    );
 
-  HydratedBlocOverrides.runZoned(
-    () => runApp(const MyApp()),
-    storage: storage,
-  );
+    HydratedBlocOverrides.runZoned(
+      () => runApp(const MyApp()),
+      storage: storage,
+    );
+  });
 }
 
 class MyApp extends StatelessWidget {

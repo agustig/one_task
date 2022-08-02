@@ -36,10 +36,12 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   hydrated_bloc: ^8.1.0
+  image_picker: ^0.8.5+3
   intl: ^0.17.0
+  path: ^1.8.1
   path_provider: ^2.0.11
-  syncfusion_flutter_calendar: ^20.2.39
-  syncfusion_localizations: ^20.2.39
+  syncfusion_flutter_calendar: ^20.2.40
+  syncfusion_localizations: ^20.2.40
   uuid: ^3.0.6
 
 dev_dependencies:

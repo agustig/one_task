@@ -2,7 +2,8 @@ part of 'user_cubit.dart';
 
 /// Data state yang di-manage oleh [UserCubit]
 class UserState extends Equatable {
-  UserState({User? user}) : user = user ?? User.sampleUser();
+  const UserState({required this.user});
+
   final User user;
 
   /// Import [UserState] dari Json atau Map

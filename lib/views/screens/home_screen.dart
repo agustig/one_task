@@ -74,17 +74,16 @@ class _HomeScreenState extends State<HomeScreen> {
         slivers: [
           SliverAppBar(
             leading: Padding(
-              padding: const EdgeInsets.only(left: 16.0),
+              padding: const EdgeInsets.all(10.0),
               child: Builder(builder: (context) {
-                return GestureDetector(
+                return InkWell(
                   onTap: () {
                     Scaffold.of(context).openDrawer();
                   },
-                  child: CircleAvatar(
-                    backgroundColor: Colors.transparent,
-                    backgroundImage: AssetImage(
-                      context.watch<UserCubit>().state.user.image,
-                    ),
+                  borderRadius: BorderRadius.circular(60),
+                  child: const Padding(
+                    padding: EdgeInsets.all(6.0),
+                    child: UserAvatar(),
                   ),
                 );
               }),

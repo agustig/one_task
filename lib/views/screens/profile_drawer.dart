@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../logic/logic.dart';
-import 'bin_screen.dart';
+import '../views.dart';
 
 /// Drawer navigasi aplikasi
 class ProfileDrawer extends StatelessWidget {
@@ -27,17 +27,7 @@ class ProfileDrawer extends StatelessWidget {
             children: [
               Column(
                 children: [
-                  Container(
-                    width: 80,
-                    height: 80,
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage(userState.image),
-                        fit: BoxFit.contain,
-                      ),
-                      shape: BoxShape.circle,
-                    ),
-                  ),
+                  const UserAvatar(scale: 3.5),
                   const SizedBox(height: 10),
                   Text(
                     userState.name,
@@ -50,7 +40,14 @@ class ProfileDrawer extends StatelessWidget {
                     leading: const Icon(Icons.edit),
                     title: const Text('Edit Profil'),
                     onTap: () {
-                      // TODO: Tambah fungsi edit profil
+                      // Halaman edit profil
+                      Navigator.pop(context);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const ProfileFormScreen(),
+                        ),
+                      );
                     },
                   ),
                   ListTile(

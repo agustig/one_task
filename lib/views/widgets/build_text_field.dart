@@ -6,16 +6,18 @@ class BuildTextField extends StatelessWidget {
     Key? key,
     required this.controller,
     required this.label,
-    required this.hint,
+    this.hint,
     this.minLines = 1,
     this.maxLines = 1,
+    this.enabled = true,
   }) : super(key: key);
 
   final TextEditingController controller;
   final String label;
-  final String hint;
+  final String? hint;
   final int minLines;
   final int maxLines;
+  final bool enabled;
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +34,7 @@ class BuildTextField extends StatelessWidget {
           hintText: hint,
           border: const OutlineInputBorder(),
         ),
+        enabled: enabled,
       ),
     );
   }
