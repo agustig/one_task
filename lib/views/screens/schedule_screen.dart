@@ -20,7 +20,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
     if (details.targetElement == CalendarElement.agenda ||
         details.targetElement == CalendarElement.appointment) {
       final Task task = details.appointments![0];
-      showFormDialog(context, TaskFormScreen(oldTask: task));
+      showFormModalBottom(context, TaskFormScreen(oldTask: task));
     }
   }
 

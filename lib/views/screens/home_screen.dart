@@ -53,14 +53,14 @@ class _HomeScreenState extends State<HomeScreen> {
     final floatingActionButtons = [
       FloatingActionButton(
         onPressed: () {
-          showFormDialog(context, const TaskFormScreen());
+          showFormModalBottom(context, const TaskFormScreen());
         },
         child: const Icon(Icons.add),
       ),
       null,
       FloatingActionButton(
         onPressed: () {
-          showFormDialog(context, const NoteFormScreen());
+          showFormModalBottom(context, const NoteFormScreen());
         },
         child: const Icon(Icons.note_add_outlined),
       ),

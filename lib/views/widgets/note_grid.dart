@@ -24,7 +24,7 @@ class NoteGrid extends StatelessWidget {
               // Ketika note ditekan(onTap), muncul halaman popup
               // NoteForm untuk mengedit note.
               onTap: () {
-                showFormDialog(context, NoteFormScreen(note: note));
+                showFormModalBottom(context, NoteFormScreen(note: note));
               },
 
               // Ketika note dipendam(onLongPress), akan muncul peringatan
