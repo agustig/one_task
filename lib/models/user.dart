@@ -72,11 +72,12 @@ class User extends Equatable {
 
   /// Import data pengguna dari bentuk Json atau Map
   factory User.fromJson(Map<String, dynamic> json) {
-    final String? imagePath = json['image'];
     return User(
       id: json['id'],
       name: json['name'],
-      image: (imagePath != null) ? File(imagePath) : null,
+      image: (json['image'] != null)
+          ? LocalStore().loadStoredFile(json['image'])
+          : null,
     );
   }
 
@@ -85,7 +86,7 @@ class User extends Equatable {
     return {
       'id': id,
       'name': name,
-      'image': (image != null) ? image!.path : null,
+      'image': (image != null) ? LocalStore.getFileBasename(image!) : null,
     };
   }
 
