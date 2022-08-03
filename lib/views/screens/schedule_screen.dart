@@ -43,7 +43,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
   Widget build(BuildContext context) {
     return SliverToBoxAdapter(
       child: Container(
-        height: MediaQuery.of(context).size.height - 240,
+        height: MediaQuery.of(context).size.height - 300,
         padding: const EdgeInsets.only(
           left: 16.0,
           right: 16.0,

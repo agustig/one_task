@@ -88,16 +88,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 );
               }),
             ),
-            actions: [
-              Padding(
-                padding: const EdgeInsets.only(right: 16.0),
-                child: IconButton(
-                  onPressed: () {},
-                  icon: const Icon(Icons.notifications),
-                ),
-              ),
-            ],
-            elevation: 0,
+            elevation: 1,
             stretch: true,
             pinned: true,
             expandedHeight: 150,

@@ -84,10 +84,8 @@ class ProfileFormScreen extends StatelessWidget {
   }
 
   /// Widget popup dialog untuk Edit nama pengguna
-  void _editNameDialog(
-    BuildContext context,
-    TextEditingController controller,
-  ) {
+  void _editNameDialog(BuildContext context, String name) {
+    final textController = TextEditingController(text: name);
     showDialog(
       context: context,
       builder: (context) {
@@ -97,15 +95,15 @@ class ProfileFormScreen extends StatelessWidget {
             style: Theme.of(context).textTheme.headline3,
           ),
           content: BuildTextField(
-            controller: controller,
+            controller: textController,
             label: 'Name Lengkap',
             hint: 'Tsubasa Ozora',
           ),
           actions: [
             TextButton(
               onPressed: () {
-                final nameIsZero = controller.text == '';
-                final name = nameIsZero ? 'Tsubasa Ozora' : controller.text;
+                final nameIsZero = textController.text == '';
+                final name = nameIsZero ? 'Tsubasa Ozora' : textController.text;
                 context.read<UserCubit>().edit(name: name);
                 Navigator.pop(context);
               },
@@ -126,8 +124,9 @@ class ProfileFormScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final userCubit = context.watch<UserCubit>();
-    final fullNameController = TextEditingController();
-    fullNameController.text = userCubit.state.user.name;
+    final fullNameController = TextEditingController(
+      text: userCubit.state.user.name,
+    );
     final hasImage = (userCubit.state.user.image != null);
     final String addButtonLabel = hasImage ? 'Ubah' : 'Tambah';
 
@@ -177,7 +176,7 @@ class ProfileFormScreen extends StatelessWidget {
                   child: CustomTextButton(
                     onPressed: () => _editNameDialog(
                       context,
-                      fullNameController,
+                      fullNameController.text,
                     ),
                     child: const Icon(Icons.edit),
                   ),

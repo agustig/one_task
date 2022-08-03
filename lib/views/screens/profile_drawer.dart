@@ -67,13 +67,6 @@ class ProfileDrawer extends StatelessWidget {
                       );
                     },
                   ),
-                  ListTile(
-                    leading: const Icon(Icons.logout),
-                    title: const Text('Keluar'),
-                    onTap: () {
-                      // TODO: Tambah fungsi keluar/logout
-                    },
-                  ),
                 ],
               ),
             ],
