@@ -1,5 +1,5 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 
 import '../../logic/logic.dart';
 import '../../services/services.dart';
@@ -9,116 +9,64 @@ import '../views.dart';
 class ProfileFormScreen extends StatelessWidget {
   const ProfileFormScreen({Key? key}) : super(key: key);
 
-  /// Widget popup dialog untuk upload/edit gambar
-  void _uploadPhotoDialog(BuildContext context) {
-    final userCubit = context.read<UserCubit>();
-
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: Text(
-            'Ganti foto profil',
-            style: Theme.of(context).textTheme.headline3,
-          ),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const Text('Pilih foto dari galeri atau ambil dari kamera!'),
-              const SizedBox(height: 20),
-              CustomTextButton(
-                onPressed: () async {
-                  await ImagePicker()
-                      .pickImage(source: ImageSource.gallery)
-                      .then(
-                    (xImage) {
-                      if (xImage != null) {
-                        final imageFile =
-                            LocalStore().saveFileToAppDocumentDirectory(
-                          xImage.path,
-                        );
-                        userCubit.edit(image: imageFile);
-                        Navigator.pop(context);
-                      }
-                    },
-                  );
-                },
-                icon: const Icon(Icons.image_search_outlined),
-                width: 160,
-                child: const Text('Galeri'),
-              ),
-              const Padding(
-                padding: EdgeInsets.symmetric(vertical: 10),
-                child: Text(
-                  '-- atau --',
-                  textAlign: TextAlign.center,
-                ),
-              ),
-              CustomTextButton(
-                onPressed: () async {
-                  await ImagePicker()
-                      .pickImage(source: ImageSource.camera)
-                      .then(
-                    (xImage) {
-                      if (xImage != null) {
-                        final imageFile =
-                            LocalStore().saveFileToAppDocumentDirectory(
-                          xImage.path,
-                        );
-                        userCubit.edit(image: imageFile);
-                        Navigator.pop(context);
-                      }
-                    },
-                  );
-                },
-                icon: const Icon(Icons.camera_alt_rounded),
-                width: 160,
-                child: const Text('Camera'),
-              ),
-            ],
-          ),
-        );
-      },
-    );
-  }
-
   /// Widget popup dialog untuk Edit nama pengguna
   void _editNameDialog(BuildContext context, String name) {
     final textController = TextEditingController(text: name);
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: Text(
-            'Ubah nama',
-            style: Theme.of(context).textTheme.headline3,
-          ),
-          content: BuildTextField(
-            controller: textController,
-            label: 'Name Lengkap',
-            hint: 'Tsubasa Ozora',
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                final nameIsZero = textController.text == '';
-                final name = nameIsZero ? 'Tsubasa Ozora' : textController.text;
-                context.read<UserCubit>().edit(name: name);
-                Navigator.pop(context);
-              },
-              child: const Text('Simpan'),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: const Text('Batal'),
-            ),
-          ],
-        );
-      },
+    final dialogTitle = Text(
+      'Ubah nama',
+      style: Theme.of(context).textTheme.headline3,
     );
+    final dialogActions = [
+      TextButton(
+        onPressed: () {
+          final nameIsZero = textController.text == '';
+          final name = nameIsZero ? 'Tsubasa Ozora' : textController.text;
+          context.read<UserCubit>().edit(name: name);
+          Navigator.pop(context);
+        },
+        child: const Text('Simpan'),
+      ),
+      TextButton(
+        onPressed: () {
+          Navigator.pop(context);
+        },
+        child: const Text('Batal'),
+      ),
+    ];
+
+    // Menampilkan CupertinoAlertDialog jika platform iOS
+    if (PlatformDetails().isIos) {
+      showCupertinoDialog(
+        context: context,
+        builder: (context) {
+          return CupertinoAlertDialog(
+            title: dialogTitle,
+            content: BuildTextField(
+              controller: textController,
+              label: 'Name Lengkap',
+              hint: 'Tsubasa Ozora',
+              isIosField: true,
+            ),
+            actions: dialogActions,
+          );
+        },
+        barrierDismissible: true,
+      );
+    } else {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: dialogTitle,
+            content: BuildTextField(
+                controller: textController,
+                label: 'Name Lengkap',
+                hint: 'Tsubasa Ozora'),
+            actions: dialogActions,
+          );
+        },
+      );
+    }
   }
 
   @override
@@ -139,7 +87,18 @@ class ProfileFormScreen extends StatelessWidget {
           children: [
             Center(
               child: GestureDetector(
-                onTap: () => _uploadPhotoDialog(context),
+                onTap: () {
+                  uploadImageDialog(
+                    context: context,
+                    onImageUploaded: (xImage) {
+                      final imageFile =
+                          LocalStore().saveFileToAppDocumentDirectory(
+                        xImage.path,
+                      );
+                      userCubit.edit(image: imageFile);
+                    },
+                  );
+                },
                 child: const UserAvatar(
                   scale: 6,
                 ),
@@ -147,7 +106,18 @@ class ProfileFormScreen extends StatelessWidget {
             ),
             const SizedBox(height: 20),
             CustomTextButton(
-              onPressed: () => _uploadPhotoDialog(context),
+              onPressed: () {
+                uploadImageDialog(
+                  context: context,
+                  onImageUploaded: (xImage) {
+                    final imageFile =
+                        LocalStore().saveFileToAppDocumentDirectory(
+                      xImage.path,
+                    );
+                    userCubit.edit(image: imageFile);
+                  },
+                );
+              },
               icon: const Icon(Icons.add_a_photo),
               child: Text('$addButtonLabel foto profil'),
             ),

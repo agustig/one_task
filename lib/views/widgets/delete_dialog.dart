@@ -1,4 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+import '../../services/services.dart';
 
 /// Tipe penghapusan yang dipilih, terdapat dua opsi
 /// * [remove]
@@ -20,44 +23,74 @@ void showDeleteDialog({
 }) {
   late String dialogTitle;
   late String dialogContent;
-  late String dialogButton;
+  late String dialogButtonString;
 
   switch (type) {
     case DeleteType.remove:
       dialogTitle = 'Pindahkan ke kotak sampah';
       dialogContent = 'Item akan dipindahkan ke kotak sampah. '
           'Anda dapat mengembalikan-nya kapanpun.';
-      dialogButton = 'Pindahkah';
+      dialogButtonString = 'Pindahkah';
       break;
     case DeleteType.delete:
       dialogTitle = 'Hapus item';
       dialogContent =
           'Apakah anda yakin untuk menghapus selamanya catatan ini?';
-      dialogButton = 'Hapus';
+      dialogButtonString = 'Hapus';
       break;
   }
-  showDialog(
-    context: context,
-    builder: (context) {
-      return AlertDialog(
-        title: Text(dialogTitle),
-        content: Text(dialogContent),
-        actions: [
-          TextButton(
-            onPressed: () {
-              onSubmit();
-              Navigator.pop(context);
-            },
-            child: Text(dialogButton),
-          ),
-          TextButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            child: const Text('Batal'),
-          ),
-        ],
-      );
-    },
-  );
+
+  // Menampilkan CupertinoAlertDialog jika platform iOS
+  if (PlatformDetails().isIos) {
+    showCupertinoDialog(
+      context: context,
+      builder: (context) {
+        return CupertinoAlertDialog(
+          title: Text(dialogTitle),
+          content: Text(dialogContent),
+          actions: [
+            TextButton(
+              onPressed: () {
+                onSubmit();
+                Navigator.pop(context);
+              },
+              child: Text(dialogButtonString),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text('Batal'),
+            ),
+          ],
+        );
+      },
+      barrierDismissible: true,
+    );
+  } else {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(dialogTitle),
+          content: Text(dialogContent),
+          actions: [
+            TextButton(
+              onPressed: () {
+                onSubmit();
+                Navigator.pop(context);
+              },
+              child: Text(dialogButtonString),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text('Batal'),
+            ),
+          ],
+        );
+      },
+    );
+  }
 }

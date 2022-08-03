@@ -1,6 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../logic/logic.dart';
+import '../../services/services.dart';
 import '../views.dart';
 
 /// Hamalan utama aplikasi
@@ -21,6 +23,43 @@ class _HomeScreenState extends State<HomeScreen> {
     const TodayTasksScreen(),
     const NotesScreen(),
   ];
+
+  Widget bottomNavigationBar() {
+    void onTap(int index) => setState(() => currentPage = index);
+
+    const items = [
+      BottomNavigationBarItem(
+        icon: Icon(Icons.calendar_month_outlined),
+        label: 'Schedule',
+      ),
+      BottomNavigationBarItem(
+        icon: Icon(Icons.task),
+        label: 'Tasks',
+      ),
+      BottomNavigationBarItem(
+        icon: Icon(Icons.sticky_note_2),
+        label: 'Notes',
+      ),
+    ];
+
+    // Menampilkan CupertinoTabBar jika platform iOS
+    if (PlatformDetails().isIos) {
+      return CupertinoTabBar(
+        currentIndex: currentPage,
+        onTap: onTap,
+        items: items,
+      );
+    }
+
+    return BottomNavigationBar(
+      currentIndex: currentPage,
+      onTap: onTap,
+      iconSize: 35,
+      showSelectedLabels: false,
+      showUnselectedLabels: false,
+      items: items,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -67,79 +106,54 @@ class _HomeScreenState extends State<HomeScreen> {
     ];
 
     return Scaffold(
-      floatingActionButton: floatingActionButtons[currentPage],
-      drawer: const ProfileDrawer(),
-      body: CustomScrollView(
-        shrinkWrap: true,
-        slivers: [
-          SliverAppBar(
-            leading: Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Builder(builder: (context) {
-                return InkWell(
-                  onTap: () {
-                    Scaffold.of(context).openDrawer();
-                  },
-                  borderRadius: BorderRadius.circular(60),
-                  child: const Padding(
-                    padding: EdgeInsets.all(6.0),
-                    child: UserAvatar(),
-                  ),
-                );
-              }),
-            ),
-            elevation: 1,
-            stretch: true,
-            pinned: true,
-            expandedHeight: 150,
-            collapsedHeight: (currentPage == 2) ? null : 150,
-            flexibleSpace: FlexibleSpaceBar(
-              centerTitle: currentPage == 2,
-              titlePadding: const EdgeInsets.symmetric(
-                horizontal: 16,
-                vertical: 26,
+        floatingActionButton: floatingActionButtons[currentPage],
+        drawer: const ProfileDrawer(),
+        body: CustomScrollView(
+          shrinkWrap: true,
+          slivers: [
+            SliverAppBar(
+              leading: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Builder(builder: (context) {
+                  return InkWell(
+                    onTap: () {
+                      Scaffold.of(context).openDrawer();
+                    },
+                    borderRadius: BorderRadius.circular(60),
+                    child: const Padding(
+                      padding: EdgeInsets.all(6.0),
+                      child: UserAvatar(),
+                    ),
+                  );
+                }),
               ),
-              title: titles[currentPage],
-              background: Padding(
-                padding: const EdgeInsets.only(left: 16.0, bottom: 10),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: currentPage == 2
-                      ? CrossAxisAlignment.center
-                      : CrossAxisAlignment.start,
-                  children: [subTitle[currentPage]],
+              elevation: 1,
+              stretch: true,
+              pinned: true,
+              expandedHeight: 150,
+              collapsedHeight: (currentPage == 2) ? null : 150,
+              flexibleSpace: FlexibleSpaceBar(
+                centerTitle: currentPage == 2,
+                titlePadding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 26,
+                ),
+                title: titles[currentPage],
+                background: Padding(
+                  padding: const EdgeInsets.only(left: 16.0, bottom: 10),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: currentPage == 2
+                        ? CrossAxisAlignment.center
+                        : CrossAxisAlignment.start,
+                    children: [subTitle[currentPage]],
+                  ),
                 ),
               ),
             ),
-          ),
-          pages[currentPage],
-        ],
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: currentPage,
-        onTap: (index) {
-          setState(() {
-            currentPage = index;
-          });
-        },
-        iconSize: 35,
-        showSelectedLabels: false,
-        showUnselectedLabels: false,
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.calendar_month_outlined),
-            label: 'Schedule',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.task),
-            label: 'Tasks',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.sticky_note_2),
-            label: 'Notes',
-          ),
-        ],
-      ),
-    );
+            pages[currentPage],
+          ],
+        ),
+        bottomNavigationBar: bottomNavigationBar());
   }
 }

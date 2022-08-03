@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 /// Kotak isian yang digunakan untuk menginput Text/String
@@ -10,6 +11,7 @@ class BuildTextField extends StatelessWidget {
     this.minLines = 1,
     this.maxLines = 1,
     this.enabled = true,
+    this.isIosField = false,
   }) : super(key: key);
 
   final TextEditingController controller;
@@ -19,8 +21,35 @@ class BuildTextField extends StatelessWidget {
   final int maxLines;
   final bool enabled;
 
+  /// Menampikan CupertinoTextField
+  final bool isIosField;
+
   @override
   Widget build(BuildContext context) {
+    if (isIosField) {
+      return _iosField();
+    }
+
+    return _defaultField();
+  }
+
+  Widget _iosField() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 10),
+      child: CupertinoTextField(
+        controller: controller,
+        minLines: minLines,
+        maxLines: maxLines,
+        autocorrect: false,
+        autofocus: true,
+        decoration: BoxDecoration(border: Border.all()),
+        enabled: enabled,
+        placeholder: hint,
+      ),
+    );
+  }
+
+  Widget _defaultField() {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10),
       child: TextField(

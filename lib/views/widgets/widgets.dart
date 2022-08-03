@@ -7,4 +7,5 @@ export 'note_grid.dart';
 export 'notes_bin_item.dart';
 export 'task_tile.dart';
 export 'tasks_bin_item.dart';
+export 'upload_image_dialog.dart';
 export 'user_avatar.dart';
