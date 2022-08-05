@@ -22,7 +22,12 @@ void uploadImageDialog({
       const SizedBox(height: 20),
       CustomTextButton(
         onPressed: () async {
-          await ImagePicker().pickImage(source: ImageSource.gallery).then(
+          await ImagePicker()
+              .pickImage(
+            source: ImageSource.gallery,
+            imageQuality: 60,
+          )
+              .then(
             (xImage) {
               if (xImage != null) {
                 onImageUploaded(xImage);
@@ -44,7 +49,12 @@ void uploadImageDialog({
       ),
       CustomTextButton(
         onPressed: () async {
-          await ImagePicker().pickImage(source: ImageSource.camera).then(
+          await ImagePicker()
+              .pickImage(
+            source: ImageSource.camera,
+            imageQuality: 60,
+          )
+              .then(
             (xImage) {
               if (xImage != null) {
                 onImageUploaded(xImage);
