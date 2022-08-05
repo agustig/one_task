@@ -106,54 +106,55 @@ class _HomeScreenState extends State<HomeScreen> {
     ];
 
     return Scaffold(
-        floatingActionButton: floatingActionButtons[currentPage],
-        drawer: const ProfileDrawer(),
-        body: CustomScrollView(
-          shrinkWrap: true,
-          slivers: [
-            SliverAppBar(
-              leading: Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Builder(builder: (context) {
-                  return InkWell(
-                    onTap: () {
-                      Scaffold.of(context).openDrawer();
-                    },
-                    borderRadius: BorderRadius.circular(60),
-                    child: const Padding(
-                      padding: EdgeInsets.all(6.0),
-                      child: UserAvatar(),
-                    ),
-                  );
-                }),
-              ),
-              elevation: 1,
-              stretch: true,
-              pinned: true,
-              expandedHeight: 150,
-              collapsedHeight: (currentPage == 2) ? null : 150,
-              flexibleSpace: FlexibleSpaceBar(
-                centerTitle: currentPage == 2,
-                titlePadding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 26,
-                ),
-                title: titles[currentPage],
-                background: Padding(
-                  padding: const EdgeInsets.only(left: 16.0, bottom: 10),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    crossAxisAlignment: currentPage == 2
-                        ? CrossAxisAlignment.center
-                        : CrossAxisAlignment.start,
-                    children: [subTitle[currentPage]],
+      floatingActionButton: floatingActionButtons[currentPage],
+      drawer: const ProfileDrawer(),
+      body: CustomScrollView(
+        shrinkWrap: true,
+        slivers: [
+          SliverAppBar(
+            leading: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Builder(builder: (context) {
+                return InkWell(
+                  onTap: () {
+                    Scaffold.of(context).openDrawer();
+                  },
+                  borderRadius: BorderRadius.circular(60),
+                  child: const Padding(
+                    padding: EdgeInsets.all(6.0),
+                    child: UserAvatar(),
                   ),
+                );
+              }),
+            ),
+            elevation: 1,
+            stretch: true,
+            pinned: true,
+            expandedHeight: 150,
+            collapsedHeight: (currentPage == 2) ? null : 150,
+            flexibleSpace: FlexibleSpaceBar(
+              centerTitle: currentPage == 2,
+              titlePadding: EdgeInsetsDirectional.only(
+                start: (currentPage == 2) ? 0 : 16,
+                bottom: 16,
+              ),
+              title: titles[currentPage],
+              background: Padding(
+                padding: const EdgeInsets.only(left: 16.0, bottom: 4),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: (currentPage == 2)
+                      ? CrossAxisAlignment.center
+                      : CrossAxisAlignment.start,
+                  children: [subTitle[currentPage]],
                 ),
               ),
             ),
-            pages[currentPage],
-          ],
-        ),
-        bottomNavigationBar: bottomNavigationBar());
+          ),
+          pages[currentPage],
+        ],
+      ),
+      bottomNavigationBar: bottomNavigationBar(),
+    );
   }
 }
