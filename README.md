@@ -6,6 +6,8 @@ Simple daily task manager application.
 
 This project is a starting point for a Flutter application.
 
+This application use Icon from [Flaticon](https://www.flaticon.com/free-icon/list_4472515#) as App Icon.
+
 A few resources to get you started if this is your first Flutter project:
 
 - [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
