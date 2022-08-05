@@ -30,15 +30,15 @@ class _HomeScreenState extends State<HomeScreen> {
     const items = [
       BottomNavigationBarItem(
         icon: Icon(Icons.calendar_month_outlined),
-        label: 'Schedule',
+        label: 'Skedul',
       ),
       BottomNavigationBarItem(
         icon: Icon(Icons.task),
-        label: 'Tasks',
+        label: 'Task',
       ),
       BottomNavigationBarItem(
         icon: Icon(Icons.sticky_note_2),
-        label: 'Notes',
+        label: 'Catatan',
       ),
     ];
 
