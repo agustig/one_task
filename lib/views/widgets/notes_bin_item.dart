@@ -40,7 +40,6 @@ class NotesBinItem extends StatelessWidget {
                 ? Checkbox(
                     value: selectedNote.contains(note),
                     onChanged: (_) => selectUnselectNote(note),
-                    activeColor: Colors.green,
                   )
                 : null,
             selected: selectedNote.contains(note),
