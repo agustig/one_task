@@ -21,27 +21,27 @@ ThemeData oneTaskTheme() {
       shape: CircleBorder(),
     ),
     textTheme: const TextTheme(
-      bodyText1: TextStyle(
+      bodyLarge: TextStyle(
         color: Colors.black,
         fontWeight: FontWeight.w700,
         fontSize: 14,
       ),
-      bodyText2: TextStyle(
+      bodyMedium: TextStyle(
         color: Colors.black,
         fontWeight: FontWeight.w400,
         fontSize: 14,
       ),
-      headline1: TextStyle(
+      displayLarge: TextStyle(
         color: Colors.black,
         fontWeight: FontWeight.bold,
         fontSize: 32,
       ),
-      headline2: TextStyle(
+      displayMedium: TextStyle(
         color: Colors.black,
         fontWeight: FontWeight.w700,
         fontSize: 21,
       ),
-      headline3: TextStyle(
+      displaySmall: TextStyle(
         color: Colors.black,
         fontWeight: FontWeight.w600,
         fontSize: 16,

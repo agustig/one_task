@@ -33,7 +33,7 @@ class EmptyItem extends StatelessWidget {
             title,
             style: Theme.of(context)
                 .textTheme
-                .bodyText1
+                .bodyLarge
                 ?.copyWith(color: Colors.black87),
           ),
           const SizedBox(height: 16),
@@ -41,7 +41,7 @@ class EmptyItem extends StatelessWidget {
             subTitle,
             style: Theme.of(context)
                 .textTheme
-                .bodyText2
+                .bodyMedium
                 ?.copyWith(color: Colors.black45),
           ),
         ],

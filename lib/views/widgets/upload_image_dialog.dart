@@ -12,7 +12,7 @@ void uploadImageDialog({
 }) {
   final dialogTitle = Text(
     'Ganti foto profil',
-    style: Theme.of(context).textTheme.headline3,
+    style: Theme.of(context).textTheme.displaySmall,
   );
   final dialogContent = Column(
     mainAxisSize: MainAxisSize.min,

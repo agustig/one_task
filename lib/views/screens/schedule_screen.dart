@@ -61,7 +61,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
               ],
               dataSource: TaskDataSource(state.allTasks),
               scheduleViewSettings: ScheduleViewSettings(
-                appointmentTextStyle: Theme.of(context).textTheme.bodyText2,
+                appointmentTextStyle: Theme.of(context).textTheme.bodyMedium,
               ),
               monthViewSettings: const MonthViewSettings(showAgenda: true),
               timeSlotViewSettings: const TimeSlotViewSettings(

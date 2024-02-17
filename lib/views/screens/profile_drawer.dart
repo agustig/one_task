@@ -31,7 +31,7 @@ class ProfileDrawer extends StatelessWidget {
                   const SizedBox(height: 10),
                   Text(
                     userState.name,
-                    style: Theme.of(context).textTheme.headline3,
+                    style: Theme.of(context).textTheme.displaySmall,
                   ),
                   const Divider(
                     height: 20,

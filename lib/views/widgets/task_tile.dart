@@ -23,7 +23,7 @@ class TaskTile extends StatelessWidget {
             task.startTime.day != DateTime.now().day
                 ? '${DateFormat.MMMMd('id_ID').format(task.startTime)} '
                 : DateFormat('hh:mm a').format(task.startTime),
-            style: Theme.of(context).textTheme.bodyText1,
+            style: Theme.of(context).textTheme.bodyLarge,
             textAlign: TextAlign.center,
           ),
         ),
@@ -66,12 +66,12 @@ class TaskTile extends StatelessWidget {
                       children: [
                         Text(
                           task.title,
-                          style: Theme.of(context).textTheme.headline3,
+                          style: Theme.of(context).textTheme.displaySmall,
                         ),
                         const SizedBox(height: 8.0),
                         Text(
                           task.detail,
-                          style: Theme.of(context).textTheme.bodyText2,
+                          style: Theme.of(context).textTheme.bodyMedium,
                         ),
                         const SizedBox(height: 8.0),
                         (task.startTime.year == task.endTime.year &&
@@ -80,7 +80,7 @@ class TaskTile extends StatelessWidget {
                             ? Text(
                                 '${DateFormat("hh:mm a").format(task.startTime)} - '
                                 '${DateFormat("hh:mm a").format(task.endTime)}',
-                                style: Theme.of(context).textTheme.bodyText1,
+                                style: Theme.of(context).textTheme.bodyLarge,
                               )
                             : Text(
                                 '${DateFormat.MMMMd('id_ID').format(task.startTime)}, '
@@ -89,7 +89,7 @@ class TaskTile extends StatelessWidget {
                                 '${DateFormat("hh:mm a").format(task.endTime)}',
                                 style: Theme.of(context)
                                     .textTheme
-                                    .bodyText1
+                                    .bodyLarge
                                     ?.copyWith(fontSize: 13),
                               ),
                       ],

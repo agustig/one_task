@@ -34,7 +34,7 @@ class _TaskFormScreenState extends State<TaskFormScreen> {
         children: [
           Text(
             oldTask != null ? 'Ubah task' : 'Tambah task baru',
-            style: Theme.of(context).textTheme.headline2,
+            style: Theme.of(context).textTheme.displayMedium,
           ),
           const SizedBox(height: 10),
           BuildTextField(
@@ -95,7 +95,7 @@ class _TaskFormScreenState extends State<TaskFormScreen> {
             children: [
               Text(
                 'Mulai: ',
-                style: Theme.of(context).textTheme.bodyText1,
+                style: Theme.of(context).textTheme.bodyLarge,
               ),
               const SizedBox(width: 10.0),
               TextButton(
@@ -166,7 +166,7 @@ class _TaskFormScreenState extends State<TaskFormScreen> {
             children: [
               Text(
                 'Akhir: ',
-                style: Theme.of(context).textTheme.bodyText1,
+                style: Theme.of(context).textTheme.bodyLarge,
               ),
               const SizedBox(width: 10.0),
               TextButton(

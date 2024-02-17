@@ -14,7 +14,7 @@ class ProfileFormScreen extends StatelessWidget {
     final textController = TextEditingController(text: name);
     final dialogTitle = Text(
       'Ubah nama',
-      style: Theme.of(context).textTheme.headline3,
+      style: Theme.of(context).textTheme.displaySmall,
     );
     final dialogActions = [
       TextButton(

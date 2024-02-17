@@ -13,14 +13,11 @@ void main() async {
   // Meng-inisialisi service yang dibutuhkan, lalu menjalankan aplikasi
   initialize().whenComplete(() async {
     // Menginisialisasi penyimpanan untuk menyimpan bloc state
-    final storage = await HydratedStorage.build(
+    HydratedBloc.storage = await HydratedStorage.build(
       storageDirectory: documentDirectory,
     );
 
-    HydratedBlocOverrides.runZoned(
-      () => runApp(const MyApp()),
-      storage: storage,
-    );
+    runApp(const MyApp());
   });
 }
 

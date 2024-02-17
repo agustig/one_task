@@ -98,7 +98,7 @@ class BinScreen extends StatelessWidget {
     return DefaultTabController(
       length: tabs.length,
       child: Builder(builder: (context) {
-        final TabController tabController = DefaultTabController.of(context)!;
+        final TabController tabController = DefaultTabController.of(context);
 
         // Mendeteksi perubahan halaman tab
         tabController.addListener(
@@ -118,7 +118,7 @@ class BinScreen extends StatelessWidget {
             actions: appBarActions(),
             bottom: TabBar(
               isScrollable: true,
-              labelStyle: Theme.of(context).textTheme.bodyText1,
+              labelStyle: Theme.of(context).textTheme.bodyLarge,
               labelColor: Colors.black,
               tabs: tabs,
             ),

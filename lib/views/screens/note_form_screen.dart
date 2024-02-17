@@ -31,7 +31,7 @@ class NoteFormScreen extends StatelessWidget {
         children: [
           Text(
             note != null ? 'Edit catatan' : 'Tambah catatan',
-            style: Theme.of(context).textTheme.headline2,
+            style: Theme.of(context).textTheme.displayMedium,
           ),
           const SizedBox(height: 10),
           BuildTextField(
