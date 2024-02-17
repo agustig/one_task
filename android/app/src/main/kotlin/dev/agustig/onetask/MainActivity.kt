@@ -1,4 +1,4 @@
-package dev.agustig.apps.one_task
+package dev.agustig.onetask
 
 import io.flutter.embedding.android.FlutterActivity
 
