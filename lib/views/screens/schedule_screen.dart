@@ -79,31 +79,28 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
 
 /// Implementasi dari list [Task] ke [SfCalendar]
 /// melalui [CalendarDataSource]
-class TaskDataSource extends CalendarDataSource {
-  TaskDataSource(this.tasks);
-
-  final List<Task> tasks;
-
-  @override
-  List<dynamic> get appointments => tasks;
+class TaskDataSource extends CalendarDataSource<Task> {
+  TaskDataSource(List<Task> source) {
+    appointments = source;
+  }
 
   @override
   DateTime getStartTime(int index) {
-    return tasks[index].startTime;
+    return appointments![index].startTime;
   }
 
   @override
   DateTime getEndTime(int index) {
-    return tasks[index].endTime;
+    return appointments![index].endTime;
   }
 
   @override
   String getSubject(int index) {
-    return tasks[index].title;
+    return appointments![index].title;
   }
 
   @override
   Color getColor(int index) {
-    return tasks[index].background;
+    return appointments![index].background;
   }
 }
