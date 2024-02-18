@@ -28,8 +28,8 @@ class EditNote extends NotesEvent {
 }
 
 /// Menyeleksi note
-class SelectNote extends NotesEvent {
-  const SelectNote({required this.note});
+class SelectBinNote extends NotesEvent {
+  const SelectBinNote({required this.note});
   final Note note;
 
   @override
@@ -37,8 +37,8 @@ class SelectNote extends NotesEvent {
 }
 
 /// Membatalkan seleksi pada note
-class UnselectNote extends NotesEvent {
-  const UnselectNote({required this.note});
+class UnselectBinNote extends NotesEvent {
+  const UnselectBinNote({required this.note});
   final Note note;
 
   @override
@@ -46,10 +46,10 @@ class UnselectNote extends NotesEvent {
 }
 
 /// Menyeleksi semua note sekaligus
-class SelectAllNotes extends NotesEvent {}
+class SelectAllBinNotes extends NotesEvent {}
 
 /// Membatalkan seleksi semua note yang diseleksi sekaligus
-class UnselectAllNotes extends NotesEvent {}
+class UnselectAllBinNotes extends NotesEvent {}
 
 /// Memindahkan note ke kotak sampah
 class RemoveNote extends NotesEvent {
@@ -61,7 +61,7 @@ class RemoveNote extends NotesEvent {
 }
 
 /// Mengembalkan semua note yang diseleksi dari kotak sampah
-class RestoreSelectedNotes extends NotesEvent {}
+class RestoreSelectedBinNotes extends NotesEvent {}
 
 /// Menghapus semua note yang diseleksi
-class DeleteSelectedNotes extends NotesEvent {}
+class DeleteSelectedBinNotes extends NotesEvent {}

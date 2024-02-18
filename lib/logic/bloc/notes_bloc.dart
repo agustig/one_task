@@ -11,13 +11,13 @@ class NotesBloc extends HydratedBloc<NotesEvent, NotesState> {
   NotesBloc() : super(NotesState()) {
     on<AddNote>(_onAddNote);
     on<EditNote>(_onEditNote);
-    on<SelectNote>(_onSelectNote);
-    on<UnselectNote>(_onUnselectNote);
-    on<SelectAllNotes>(_onSelectAllNotes);
-    on<UnselectAllNotes>(_onUnselectAllNotes);
+    on<SelectBinNote>(_onSelectBinNote);
+    on<UnselectBinNote>(_onUnselectBinNote);
+    on<SelectAllBinNotes>(_onSelectAllBinNotes);
+    on<UnselectAllBinNotes>(_onUnselectAllBinNotes);
     on<RemoveNote>(_onRemoveNote);
-    on<RestoreSelectedNotes>(_onRestoreSelectedNotes);
-    on<DeleteSelectedNotes>(_onDeleteSelectedNotes);
+    on<RestoreSelectedBinNotes>(_onRestoreSelectedBinNotes);
+    on<DeleteSelectedBinNotes>(_onDeleteSelectedBinNotes);
   }
 
   /// Memproses event [AddNote]
@@ -37,85 +37,61 @@ class NotesBloc extends HydratedBloc<NotesEvent, NotesState> {
     var notes = state.notes;
     var removedNotes = state.removedNotes;
 
-    // Mengecek apakah note terhapus
-    if (oldNote.isRemoved) {
-      // Mengedit note yang berada dalam List State removedNotes
-      final noteIndex = removedNotes.indexOf(oldNote);
-      removedNotes = List.from(removedNotes)
-        ..remove(oldNote)
-        ..insert(
-          noteIndex,
-          newNote.copyWith(
-            id: oldNote.id,
-            isRemoved: oldNote.isRemoved,
-            createDate: oldNote.createDate,
-            background: oldNote.background,
-          ),
-        );
-    } else {
-      // Mengedit note yang berada dalam List State notes
-      final noteIndex = notes.indexOf(oldNote);
-      notes = List.from(notes)
-        ..remove(oldNote)
-        ..insert(
-          noteIndex,
-          newNote.copyWith(
-            createDate: oldNote.createDate,
-            background: oldNote.background,
-          ),
-        );
-    }
+    // Mengedit note yang berada dalam List State notes
+    final noteIndex = notes.indexOf(oldNote);
+    notes = List.from(notes)
+      ..remove(oldNote)
+      ..insert(
+        noteIndex,
+        newNote.copyWith(
+          createDate: oldNote.createDate,
+          background: oldNote.background,
+        ),
+      );
 
     emit(NotesState(notes: notes, removedNotes: removedNotes));
   }
 
-  /// Memproses event [SelectNote]
-  void _onSelectNote(SelectNote event, Emitter<NotesState> emit) {
+  /// Memproses event [SelectBinNote]
+  void _onSelectBinNote(SelectBinNote event, Emitter<NotesState> emit) {
     emit(
       NotesState(
         notes: state.notes,
         removedNotes: state.removedNotes,
-        selectedNotes: List.from(state.selectedNotes)..add(event.note),
+        selectedBinNotes: List.from(state.selectedBinNotes)..add(event.note),
       ),
     );
   }
 
-  /// Memposes event [UnselectNote]
-  void _onUnselectNote(UnselectNote event, Emitter<NotesState> emit) {
+  /// Memposes event [UnselectBinNote]
+  void _onUnselectBinNote(UnselectBinNote event, Emitter<NotesState> emit) {
     emit(
       NotesState(
         notes: state.notes,
         removedNotes: state.removedNotes,
-        selectedNotes: List.from(state.selectedNotes)..remove(event.note),
+        selectedBinNotes: List.from(state.selectedBinNotes)..remove(event.note),
       ),
     );
   }
 
-  /// Memproses event [SelectAllNotes]
-  void _onSelectAllNotes(SelectAllNotes event, Emitter<NotesState> emit) {
+  /// Memproses event [SelectAllBinNotes]
+  void _onSelectAllBinNotes(SelectAllBinNotes event, Emitter<NotesState> emit) {
     final notes = state.notes;
     final removedNotes = state.removedNotes;
-    var selectedNotes = state.selectedNotes;
-
-    // Mengecek apakah note yang sudah diseleksi sebelumnya
-    // berasal dari notes atau removedNotes
-    if (selectedNotes[0].isRemoved) {
-      selectedNotes = List.from(removedNotes);
-    } else {
-      selectedNotes = List.from(notes);
-    }
+    final selectedNotes = List<Note>.from(removedNotes);
 
     emit(
       NotesState(
         notes: notes,
         removedNotes: removedNotes,
-        selectedNotes: selectedNotes,
+        selectedBinNotes: selectedNotes,
       ),
     );
   }
 
-  /// Memproses event [UnselectAllNotes]
-  void _onUnselectAllNotes(UnselectAllNotes event, Emitter<NotesState> emit) {
+  /// Memproses event [UnselectAllBinNotes]
+  void _onUnselectAllBinNotes(
+      UnselectAllBinNotes event, Emitter<NotesState> emit) {
     emit(
       NotesState(
         notes: state.notes,
@@ -140,14 +116,14 @@ class NotesBloc extends HydratedBloc<NotesEvent, NotesState> {
     );
   }
 
-  /// Memproses event [RestoreSelectedNotes]
-  void _onRestoreSelectedNotes(
-    RestoreSelectedNotes event,
+  /// Memproses event [RestoreSelectedBinNotes]
+  void _onRestoreSelectedBinNotes(
+    RestoreSelectedBinNotes event,
     Emitter<NotesState> emit,
   ) {
     final notes = state.notes;
     final removedNotes = state.removedNotes;
-    final selectedNotes = state.selectedNotes;
+    final selectedNotes = state.selectedBinNotes;
 
     for (var note in selectedNotes) {
       removedNotes.remove(note);
@@ -163,12 +139,12 @@ class NotesBloc extends HydratedBloc<NotesEvent, NotesState> {
   }
 
   /// Memproses event [DeleteSelectedNote]
-  void _onDeleteSelectedNotes(
-    DeleteSelectedNotes event,
+  void _onDeleteSelectedBinNotes(
+    DeleteSelectedBinNotes event,
     Emitter<NotesState> emit,
   ) {
     final removedNotes = state.removedNotes;
-    final selectedNotes = state.selectedNotes;
+    final selectedNotes = state.selectedBinNotes;
 
     for (var note in selectedNotes) {
       removedNotes.remove(note);

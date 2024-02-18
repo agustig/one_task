@@ -21,7 +21,7 @@ class TodayTasksScreen extends StatelessWidget {
               negativeHeight: 240,
             );
           }
-          
+
           return Padding(
             padding: const EdgeInsets.only(top: 16.0, left: 16),
             child: Column(

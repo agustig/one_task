@@ -13,7 +13,6 @@ class Note extends Equatable {
     required this.noteBody,
     DateTime? createDate,
     DateTime? modifiedDate,
-    this.isRemoved = false,
     Color? background,
   })  : _id = id ?? const Uuid().v1(),
         _background = (background ?? ColorGen.generate()) ?? Colors.white,
@@ -37,9 +36,6 @@ class Note extends Equatable {
 
   // Tanggal pembaruan: ini akan otomatis diperbarui
   final DateTime _modifiedDate;
-
-  /// Penanda apakah note sudah di-remove
-  final bool isRemoved;
 
   /// Warna background pada note ketika ditampilkan
   final Color _background;
@@ -67,7 +63,6 @@ class Note extends Equatable {
       id: id ?? this.id,
       title: title ?? this.title,
       noteBody: noteBody ?? this.noteBody,
-      isRemoved: isRemoved ?? this.isRemoved,
       createDate: createDate ?? this.createDate,
       modifiedDate: modifiedDate ?? this.modifiedDate,
       background: background ?? this.background,
@@ -80,7 +75,6 @@ class Note extends Equatable {
       id: json['id'],
       title: json['title'],
       noteBody: json['note_body'],
-      isRemoved: json['is_removed'],
       createDate: DateTime.parse(json['create_date']),
       modifiedDate: DateTime.parse(json['modified_date']),
     );
@@ -92,7 +86,6 @@ class Note extends Equatable {
       'id': id,
       'title': title,
       'note_body': noteBody,
-      'is_removed': isRemoved,
       'create_date': createDate.toString(),
       'modified_date': modifiedDate.toString(),
     };
@@ -105,6 +98,5 @@ class Note extends Equatable {
         noteBody,
         _createDate,
         _modifiedDate,
-        isRemoved,
       ];
 }

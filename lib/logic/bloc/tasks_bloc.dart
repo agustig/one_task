@@ -12,13 +12,13 @@ class TasksBloc extends HydratedBloc<TasksEvent, TasksState> {
     on<AddTask>(_onAddTask);
     on<UpdateTask>(_onUpdateTask);
     on<EditTask>(_onEditTask);
-    on<SelectTask>(_onSelectTask);
-    on<UnselectTask>(_onUnselectTask);
-    on<SelectAllTasks>(_onSelectAllTasks);
-    on<UnselectAllTasks>(_onUnselectAllTasks);
+    on<SelectBinTask>(_onSelectBinTask);
+    on<UnselectBinTask>(_onUnselectBinTask);
+    on<SelectAllBinTasks>(_onSelectAllBinTasks);
+    on<UnselectAllBinTasks>(_onUnselectAllBinTasks);
     on<RemoveTask>(_onRemoveTask);
-    on<RestoreSelectedTasks>(_onRestoreSelectedTasks);
-    on<DeleteSelectedTasks>(_onDeleteSelectedTasks);
+    on<RestoreSelectedBinTasks>(_onRestoreSelectedBinTasks);
+    on<DeleteSelectedBinTasks>(_onDeleteSelectedBinTasks);
   }
 
   /// Memproses event [AddTask]: Menambahkan task baru
@@ -46,7 +46,7 @@ class TasksBloc extends HydratedBloc<TasksEvent, TasksState> {
         ..insert(taskIndex, task.copyWith(isDone: false));
     }
 
-    emit(TasksState(allTasks: allTasks, removedTasks: state.allTasks));
+    emit(TasksState(allTasks: allTasks, removedTasks: state.removedTasks));
   }
 
   /// Memproses event [EditTask]
@@ -65,49 +65,44 @@ class TasksBloc extends HydratedBloc<TasksEvent, TasksState> {
     );
   }
 
-  /// Memproses event [SelectTask]
-  void _onSelectTask(SelectTask event, Emitter<TasksState> emit) {
+  /// Memproses event [SelectBinTask]
+  void _onSelectBinTask(SelectBinTask event, Emitter<TasksState> emit) {
     emit(
       TasksState(
         allTasks: state.allTasks,
         removedTasks: state.removedTasks,
-        selectedTasks: List.from(state.selectedTasks)..add(event.task),
+        selectedBinTasks: List.from(state.selectedBinTasks)..add(event.task),
       ),
     );
   }
 
-  /// Memproses event [UnselectTask]
-  void _onUnselectTask(UnselectTask event, Emitter<TasksState> emit) {
+  /// Memproses event [UnselectBinTask]
+  void _onUnselectBinTask(UnselectBinTask event, Emitter<TasksState> emit) {
     emit(
       TasksState(
         allTasks: state.allTasks,
         removedTasks: state.removedTasks,
-        selectedTasks: List.from(state.selectedTasks)..remove(event.task),
+        selectedBinTasks: List.from(state.selectedBinTasks)..remove(event.task),
       ),
     );
   }
 
-  /// Memproses event [SelectAllTasks]
-  void _onSelectAllTasks(SelectAllTasks event, Emitter<TasksState> emit) {
+  /// Memproses event [SelectAllBinTasks]
+  void _onSelectAllBinTasks(SelectAllBinTasks event, Emitter<TasksState> emit) {
     final allTasks = state.allTasks;
     final removedTasks = state.removedTasks;
-    var selectedTasks = state.selectedTasks;
-
-    if (selectedTasks[0].isRemoved) {
-      selectedTasks = removedTasks;
-    } else {
-      selectedTasks = allTasks;
-    }
+    var selectedTasks = List<Task>.from(removedTasks);
 
     emit(TasksState(
       allTasks: allTasks,
       removedTasks: removedTasks,
-      selectedTasks: selectedTasks,
+      selectedBinTasks: selectedTasks,
     ));
   }
 
-  /// Memproses event [UnselectAllTasks]
-  void _onUnselectAllTasks(UnselectAllTasks event, Emitter<TasksState> emit) {
+  /// Memproses event [UnselectAllBinTasks]
+  void _onUnselectAllBinTasks(
+      UnselectAllBinTasks event, Emitter<TasksState> emit) {
     emit(TasksState(
       allTasks: state.allTasks,
       removedTasks: state.removedTasks,
@@ -126,14 +121,14 @@ class TasksBloc extends HydratedBloc<TasksEvent, TasksState> {
     );
   }
 
-  /// Memproses event [RestoreSelectedTasks]
-  void _onRestoreSelectedTasks(
-    RestoreSelectedTasks event,
+  /// Memproses event [RestoreSelectedBinTasks]
+  void _onRestoreSelectedBinTasks(
+    RestoreSelectedBinTasks event,
     Emitter<TasksState> emit,
   ) {
     var allTasks = state.allTasks;
     var removedTasks = state.removedTasks;
-    final seletedTasks = state.selectedTasks;
+    final seletedTasks = state.selectedBinTasks;
 
     for (var task in seletedTasks) {
       allTasks = List.from(allTasks)..add(task.copyWith(isRemoved: false));
@@ -146,12 +141,12 @@ class TasksBloc extends HydratedBloc<TasksEvent, TasksState> {
     ));
   }
 
-  /// Memproses event [DeleteSelectedTasks]
-  void _onDeleteSelectedTasks(
-      DeleteSelectedTasks event, Emitter<TasksState> emit) {
+  /// Memproses event [DeleteSelectedBinTasks]
+  void _onDeleteSelectedBinTasks(
+      DeleteSelectedBinTasks event, Emitter<TasksState> emit) {
     final allTasks = state.allTasks;
     var removedTasks = state.removedTasks;
-    final selectedTasks = state.selectedTasks;
+    final selectedTasks = state.selectedBinTasks;
 
     for (var task in selectedTasks) {
       removedTasks = List.from(removedTasks)..remove(task);

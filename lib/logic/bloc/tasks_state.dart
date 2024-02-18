@@ -4,12 +4,12 @@ part of 'tasks_bloc.dart';
 /// * [allTasks]
 /// * [todayTasks]
 /// * [removedTasks]
-/// * [selectedTasks]
+/// * [selectedBinTasks]
 class TasksState extends Equatable {
   TasksState({
     List<Task> allTasks = const <Task>[],
     this.removedTasks = const <Task>[],
-    this.selectedTasks = const <Task>[],
+    this.selectedBinTasks = const <Task>[],
   }) :
         // Mengurutkan task berdasarkan waktu mulai
         _allTasks = List.from(allTasks)
@@ -42,7 +42,7 @@ class TasksState extends Equatable {
   final List<Task> removedTasks;
 
   /// Wadah List task yang digunakan untuk menyeleksi task
-  final List<Task> selectedTasks;
+  final List<Task> selectedBinTasks;
 
   /// Import [TasksState] dari Json atau Map
   factory TasksState.fromJson(Map<String, dynamic> json) {
@@ -69,6 +69,6 @@ class TasksState extends Equatable {
         _allTasks,
         todayTasks,
         removedTasks,
-        selectedTasks,
+        selectedBinTasks,
       ];
 }

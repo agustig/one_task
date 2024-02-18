@@ -56,6 +56,7 @@ class _TaskFormScreenState extends State<TaskFormScreen> {
               TextButton(
                 onPressed: () {
                   _newTask = _newTask.copyWith(
+                    id: oldTask?.id,
                     title: _titleController.text,
                     detail: _detailController.text,
                   );

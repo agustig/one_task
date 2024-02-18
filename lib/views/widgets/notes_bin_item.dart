@@ -12,12 +12,12 @@ class NotesBinItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final notesBloc = context.watch<NotesBloc>();
     final removedNotes = notesBloc.state.removedNotes;
-    final selectedNote = notesBloc.state.selectedNotes;
+    final selectedNote = notesBloc.state.selectedBinNotes;
 
     void selectUnselectNote(Note note) {
       selectedNote.contains(note)
-          ? notesBloc.add(UnselectNote(note: note))
-          : notesBloc.add(SelectNote(note: note));
+          ? notesBloc.add(UnselectBinNote(note: note))
+          : notesBloc.add(SelectBinNote(note: note));
     }
 
     // Menampilkan pesan [EmptyItem] jika removedNotes kosong
@@ -44,7 +44,7 @@ class NotesBinItem extends StatelessWidget {
                 : null,
             selected: selectedNote.contains(note),
             onLongPress: selectedNote.isEmpty
-                ? () => notesBloc.add(SelectNote(note: note))
+                ? () => notesBloc.add(SelectBinNote(note: note))
                 : null,
             selectedTileColor: Colors.black12,
             onTap:

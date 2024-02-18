@@ -12,20 +12,20 @@ class BinScreen extends StatelessWidget {
     // Mengambil bloc dari note
     final notesBloc = context.watch<NotesBloc>();
     final removedNotes = notesBloc.state.removedNotes;
-    final selectedNote = notesBloc.state.selectedNotes;
+    final selectedNote = notesBloc.state.selectedBinNotes;
 
     // Mengambil bloc dari task
     final tasksBloc = context.watch<TasksBloc>();
     final removedTasks = tasksBloc.state.removedTasks;
-    final selectedTasks = tasksBloc.state.selectedTasks;
+    final selectedTasks = tasksBloc.state.selectedBinTasks;
 
     // Leading AppBar yang terkondisi ketika ada item yang diseleksi
     Widget? appBarLeading() {
       if (selectedNote.isNotEmpty || selectedTasks.isNotEmpty) {
         return IconButton(
           onPressed: () => selectedNote.isNotEmpty
-              ? notesBloc.add(UnselectAllNotes())
-              : tasksBloc.add(UnselectAllTasks()),
+              ? notesBloc.add(UnselectAllBinNotes())
+              : tasksBloc.add(UnselectAllBinTasks()),
           icon: const Icon(Icons.arrow_back_sharp),
         );
       } else {
@@ -49,8 +49,8 @@ class BinScreen extends StatelessWidget {
         return [
           IconButton(
             onPressed: () => selectedNote.isNotEmpty
-                ? notesBloc.add(RestoreSelectedNotes())
-                : tasksBloc.add(RestoreSelectedTasks()),
+                ? notesBloc.add(RestoreSelectedBinNotes())
+                : tasksBloc.add(RestoreSelectedBinTasks()),
             icon: const Icon(
               Icons.restore_page_outlined,
             ),
@@ -61,8 +61,8 @@ class BinScreen extends StatelessWidget {
               context: context,
               type: DeleteType.delete,
               onSubmit: () => selectedNote.isNotEmpty
-                  ? notesBloc.add(DeleteSelectedNotes())
-                  : tasksBloc.add(DeleteSelectedTasks()),
+                  ? notesBloc.add(DeleteSelectedBinNotes())
+                  : tasksBloc.add(DeleteSelectedBinTasks()),
             ),
             icon: const Icon(
               Icons.delete_forever,
@@ -73,8 +73,8 @@ class BinScreen extends StatelessWidget {
             itemBuilder: (context) => [
               PopupMenuItem(
                 onTap: () => selectedNote.isNotEmpty
-                    ? notesBloc.add(SelectAllNotes())
-                    : tasksBloc.add(SelectAllTasks()),
+                    ? notesBloc.add(SelectAllBinNotes())
+                    : tasksBloc.add(SelectAllBinTasks()),
                 child: const Text('Pilih Semua'),
               ),
             ],
@@ -105,8 +105,8 @@ class BinScreen extends StatelessWidget {
           () {
             if (tabController.indexIsChanging ||
                 tabController.animation!.value == tabController.index) {
-              notesBloc.add(UnselectAllNotes());
-              tasksBloc.add(UnselectAllTasks());
+              notesBloc.add(UnselectAllBinNotes());
+              tasksBloc.add(UnselectAllBinTasks());
             }
           },
         );

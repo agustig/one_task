@@ -59,6 +59,7 @@ class NoteFormScreen extends StatelessWidget {
                           (note != null) ? note!.createDate : DateTime.now(),
                         )}';
                   final newNote = Note(
+                    id: note?.id,
                     title: noteTitle,
                     noteBody: noteBodyController.text,
                   );

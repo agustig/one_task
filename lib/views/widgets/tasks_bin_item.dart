@@ -12,23 +12,11 @@ class TasksBinItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final tasksBloc = context.watch<TasksBloc>();
     final removedTasks = tasksBloc.state.removedTasks;
-    final selectedTasks = tasksBloc.state.selectedTasks;
+    final selectedTasks = tasksBloc.state.selectedBinTasks;
 
-    bool taskIsSelected(Task task) {
-      return selectedTasks.contains(task);
-    }
-
-    bool removedTaskIsOnSelected() {
-      return selectedTasks.isNotEmpty && selectedTasks[0].isRemoved;
-    }
-
-    void selectUnselectTask(Task task) {
-      if (taskIsSelected(task)) {
-        tasksBloc.add(UnselectTask(task: task));
-      } else {
-        tasksBloc.add(SelectTask(task: task));
-      }
-    }
+    void selectUnselectTask(Task task) => selectedTasks.contains(task)
+        ? tasksBloc.add(UnselectBinTask(task: task))
+        : tasksBloc.add(SelectBinTask(task: task));
 
     // Menampilkan pesan [EmptyItem] jika removedTasks kosong
     if (removedTasks.isEmpty) {
@@ -47,18 +35,18 @@ class TasksBinItem extends StatelessWidget {
           child: ListTile(
             title: Text(task.title),
             subtitle: Text(task.detail),
-            trailing: removedTaskIsOnSelected()
+            trailing: selectedTasks.isNotEmpty
                 ? Checkbox(
-                    value: taskIsSelected(task),
+                    value: selectedTasks.contains(task),
                     onChanged: (_) => selectUnselectTask(task),
                   )
                 : null,
-            selected: taskIsSelected(task),
-            onTap: removedTaskIsOnSelected()
+            selected: selectedTasks.contains(task),
+            onTap: selectedTasks.isNotEmpty
                 ? () => selectUnselectTask(task)
                 : null,
             onLongPress: selectedTasks.isEmpty
-                ? () => tasksBloc.add(SelectTask(task: task))
+                ? () => tasksBloc.add(SelectBinTask(task: task))
                 : null,
           ),
         );

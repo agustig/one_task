@@ -40,8 +40,8 @@ class EditTask extends TasksEvent {
 }
 
 /// Meyeleksi task
-class SelectTask extends TasksEvent {
-  const SelectTask({required this.task});
+class SelectBinTask extends TasksEvent {
+  const SelectBinTask({required this.task});
 
   final Task task;
 
@@ -50,8 +50,8 @@ class SelectTask extends TasksEvent {
 }
 
 /// Membatalkan seleksi pada task
-class UnselectTask extends TasksEvent {
-  const UnselectTask({required this.task});
+class UnselectBinTask extends TasksEvent {
+  const UnselectBinTask({required this.task});
 
   final Task task;
 
@@ -60,10 +60,10 @@ class UnselectTask extends TasksEvent {
 }
 
 /// Menyeleksi semua task sekaligus
-class SelectAllTasks extends TasksEvent {}
+class SelectAllBinTasks extends TasksEvent {}
 
 /// Membatalkan seleksi semua task yang diseleksi sekaligus
-class UnselectAllTasks extends TasksEvent {}
+class UnselectAllBinTasks extends TasksEvent {}
 
 /// Memindahkan task ke kotak sampah
 class RemoveTask extends TasksEvent {
@@ -76,7 +76,7 @@ class RemoveTask extends TasksEvent {
 }
 
 /// Mengembalkan semua task yang diseleksi dari kotak sampah
-class RestoreSelectedTasks extends TasksEvent {}
+class RestoreSelectedBinTasks extends TasksEvent {}
 
 /// Menghapus semua task yang diseleksi
-class DeleteSelectedTasks extends TasksEvent {}
+class DeleteSelectedBinTasks extends TasksEvent {}
